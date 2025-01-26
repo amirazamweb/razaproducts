@@ -79,7 +79,7 @@ if (!isset($_SESSION['user_id'])) {
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="form-group">
-                                                    <input class="form-control border-form-control" value="" placeholder="Fruits" type="text" name="cat_name" required>
+                                                    <input class="form-control border-form-control" value="" placeholder="enter category" type="text" name="cat_name" required>
                                                 </div>
                                             </div>
                                         </div>

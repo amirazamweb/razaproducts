@@ -1,3 +1,39 @@
+
+<?php
+  $full_path_filename = $_SERVER['PHP_SELF'];
+  $full_path = basename($full_path_filename);
+  $filename = explode(".", $full_path);
+  $current_page = $filename[0];
+
+  $current_page."<br>";
+
+  if($current_page=="my-profile"){
+    $temp ="profile";
+  }
+  if($current_page=="category"){
+    $temp = "category";
+  }
+  if($current_page=="add-category"){
+    $temp = "category";
+  }
+  if($current_page=="update-category"){
+    $temp = "category";
+  }
+  if($current_page=="products"){
+    $temp = "product";
+  }
+  if($current_page=="add-product"){
+    $temp = "product";
+  }
+  if($current_page=="update-product"){
+    $temp = "product";
+  } 
+  if($current_page=="users"){
+    $temp = "user";
+  }
+  
+?>
+
 <div class="col-md-4">
     <div class="card account-left">
         <?php
@@ -28,11 +64,17 @@
         mysqli_close($conn);
         ?>
         <div class="list-group">
-            <a href="my-profile.php" class="list-group-item list-group-item-action active"><i aria-hidden="true" class="mdi mdi-account-outline"></i> My Profile</a>
-            <a href="category.php" class="list-group-item list-group-item-action"><i aria-hidden="true" class="mdi mdi-map-marker-circle"></i> Category List</a>
-            <a href="products.php" class="list-group-item list-group-item-action"><i aria-hidden="true" class="mdi mdi-heart-outline"></i> Product List </a>
-            <a href="orderlist.html" class="list-group-item list-group-item-action"><i aria-hidden="true" class="mdi mdi-format-list-bulleted"></i> Order List</a>
+
+            <a href="my-profile.php" class="list-group-item list-group-item-action <?php echo $temp=='profile'?'active':'' ?>"><i aria-hidden="true" class="mdi mdi-account-outline"></i> My Profile</a>
+
+            <a href="category.php" class="list-group-item list-group-item-action <?php echo $temp=='category'?'active':'' ?>"><i aria-hidden="true" class="mdi mdi-food-apple"></i> Category List</a>
+
+            <a href="products.php" class="list-group-item list-group-item-action <?php echo $temp=='product'?'active':'' ?>"><i aria-hidden="true" class="mdi mdi-food-fork-drink"></i> Product List </a>
+
+            <a href="users.php" class="list-group-item list-group-item-action <?php echo $temp=='user'?'active':'' ?>"><i aria-hidden="true" class="mdi mdi-human-male-female"></i> User List</a>
+
             <a href="logout.php" class="list-group-item list-group-item-action"><i aria-hidden="true" class="mdi mdi-lock"></i> Logout</a>
         </div>
     </div>
 </div>
+

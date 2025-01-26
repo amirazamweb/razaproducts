@@ -14,7 +14,7 @@ if (!isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Askbootstrap">
     <meta name="author" content="Askbootstrap">
-    <title>Update Product</title>
+    <title>Update User Role</title>
     <!-- Favicon Icon -->
     <link rel="icon" type="image/png" href="../img/favicon.png">
     <!-- Bootstrap core CSS -->
@@ -48,97 +48,53 @@ if (!isset($_SESSION['user_id'])) {
                                 <div class="widget">
                                     <div class="section-header">
                                         <h5 class="heading-design-h5 category-title">
-                                            Update Product
+                                            Update User Role
                                         </h5>
                                     </div>
                                     <?php
                                     include '../includes/connect.php';
-                                    $product_id = $_GET['product_id'];
-                                    $sql = "SELECT * FROM products WHERE product_id = {$product_id}";
+                                    $user_id = $_GET['user_id'];
+                                    $sql = "SELECT * FROM users WHERE user_id = {$user_id}";
                                     $result = mysqli_query($conn, $sql);
                                     if (mysqli_num_rows($result) > 0) {
                                         while ($row = mysqli_fetch_assoc($result)) {
                                     ?>
-                                            <form method="POST" enctype="multipart/form-data" action="<?php $_SERVER['PHP_SELF']; ?>">
+                                            <form method="POST" action="<?php $_SERVER['PHP_SELF']; ?>">
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
-                                                            <label class="control-label">Name <span class="required">*</span></label>
-                                                            <input class="form-control border-form-control" value="<?php echo $row['name']; ?>" type="text" name="product_name" placeholder="enter product name" required />
+                                                            <label class="control-label">User Name <span class="required">*</span></label>
+                                                            <input class="form-control border-form-control" value="<?php echo $row['name']; ?>" type="text" required readonly/>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
-                                                            <label class="control-label">Category <span class="required">*</span></label>
-                                                            <select name="product_category" id="" class="form-control border-form-control" required>
-                                                                <option value="" disabled>Select Category</option>
-                                                                <?php
-                                                                include '../includes/connect.php';
-                                                                $sql = "SELECT * FROM categories";
-                                                                $result = mysqli_query($conn, $sql);
-                                                                if (mysqli_num_rows($result) > 0) {
-                                                                    while ($row2 = mysqli_fetch_assoc($result)) {
-                                                                        if ($row['category'] == $row2['cat_id']) {
-                                                                            echo "<option value='" . $row2['cat_id'] . "'selected>" . $row2['cat_name'] . "</option>";
-                                                                        } else {
-                                                                            echo "<option value='" . $row2['cat_id'] . "'>" . $row2['cat_name'] . "</option>";
-                                                                        }
-                                                                    }
-                                                                }
-                                                                ?>
-                                                            </select>
+                                                            <label class="control-label">Petname<span class="required">*</span></label>
+                                                            <input class="form-control border-form-control" value="<?php echo $row['pet_name']; ?>" type="text" required readonly/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
-                                                            <label class="control-label">Price(₹) <span class="required">*</span></label>
-                                                            <input class="form-control border-form-control" value="<?php echo $row['price']; ?>" type="number" name="product_price" placeholder="enter price" required>
+                                                            <label class="control-label">Phone<span class="required">*</span></label>
+                                                            <input class="form-control border-form-control" value="<?php echo $row['phone']; ?>" type="number" required readonly>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
-                                                            <label class="control-label">Discount(₹)</label>
-                                                            <input class="form-control border-form-control " value="<?php echo $row['discount']; ?>" type="number" name="product_discount" placeholder="enter discount">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label">Stock <span class="required">*</span></label>
-                                                            <select name="product_stock" id="" class="form-control border-form-control" required>
+                                                            <label class="control-label">Role</label>
+                                                            <select name="role" id="" class="form-control border-form-control" required>
                                                                 <?php
-                                                                if ($row['stock'] == 1) {
+                                                                if ($row['role'] == 1) {
                                                                     echo '
-                                                                    <option value="1" selected>Yes</option>
-                                                                    <option value="0">No</option>
+                                                                    <option value="1" selected>Admin</option>
+                                                                    <option value="0">User</option>
                                                                     ';
-                                                                } elseif ($row['stock'] == 0) {
+                                                                } elseif ($row['role'] == 0) {
                                                                     echo '
-                                                                    <option value="1">Yes</option>
-                                                                    <option value="0" selected>No</option>
-                                                                    ';
-                                                                }
-                                                                ?>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label">Unit <span class="required">*</span></label>
-                                                            <select name="product_unit" id="" class="form-control border-form-control" required>
-                                                                <?php
-                                                                if ($row['unit'] == 'weight') {
-                                                                    echo '
-                                                                    <option value="weight" selected>Weight</option>
-                                                                    <option value="number">Number</option>
-                                                                    ';
-                                                                } else if ($row['unit'] == 'number') {
-                                                                    echo '
-                                                                    <option value="weight">Weight</option>
-                                                                    <option value="number" selected>Number</option>
+                                                                    <option value="1">Admin</option>
+                                                                    <option value="0" selected>User</option>
                                                                     ';
                                                                 }
                                                                 ?>
@@ -146,41 +102,19 @@ if (!isset($_SESSION['user_id'])) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <div class="form-group">
-                                                            <label class="control-label">Description <span class="required">*</span></label>
-                                                            <textarea class="form-control border-form-control" name="product_description" placeholder="enter product desc" required><?php echo $row['description']; ?></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <div class="form-group">
-                                                            <label class="control-label">Product Image <span class="required">*</span></label>
-                                                            <br>
-                                                            <input type="file" name="product_img">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-2">
-                                                    <div class="col-sm-6">
-                                                        <img src="upload/<?php echo $row['img_url']; ?>" alt="product image" style="height:70px;">
-                                                    </div>
-                                                </div>
-
-                                                <input type="hidden" value="<?php echo $row['img_url']; ?>" name="prev_img">
+                                                
+                                                <input type="hidden" name="user_id" value="<?php echo $row['user_id']; ?>">
 
                                                 <div class="row">
                                                     <div class="col-sm-12">
-                                                        <input type="submit" value="Update" class="btn btn-success" name="update-product" required>
+                                                        <input type="submit" value="Update" class="btn btn-success" name="update-user-role" required>
                                                     </div>
                                                 </div>
                                             </form>
                                     <?php
                                         }
                                     } else {
-                                        echo "<p class='text-danger'>No product details found 😞!</p>";
+                                        echo "<p class='text-danger'>No user details found 😞!</p>";
                                     }
                                     ?>
                                 </div>
@@ -357,78 +291,25 @@ if (!isset($_SESSION['user_id'])) {
 
     <!-- updae product functionality start -->
     <?php
-    if (isset($_POST['update-product'])) {
+    if (isset($_POST['update-user-role'])) {
         include '../includes/connect.php';
-        $product_id = $_GET['product_id'];
-        if (empty($_FILES['product_img']['name'])) {
-            $file_name = $_POST['prev_img'];
-        }
-        else{
-            $errors = [];
-            $file_name = $_FILES['product_img']['name'];
-            $file_type = $_FILES['product_img']['type'];
-            $file_tmp = $_FILES['product_img']['tmp_name'];
-            $file_size = $_FILES['product_img']['size'];
-            $expl = explode('.', $file_name);
-            $ext_end = (end($expl));
-            $file_ext = strtolower($ext_end);
-            $extensions = ['jpeg', 'jpg', 'png'];
-            if (in_array($file_ext, $extensions) == false) {
-                $errors[] = "This extension file not allowed. Plesae choose a JPG or PNG file.";
-                alertPopup('Plesae choose a JPG or PNG image 😞!');
-                die();
-            }
+        echo $user_id = $_POST['user_id'];
+        echo $role = $_POST['role'];
 
-            if ($file_size > 2097152) {
-                $errors[] = "File size is more than 2 MB.";
-                alertPopup('Please select file size less than 2 MB 😞!');
-                die();
-            }
-            if (empty($errors)) {
-                move_uploaded_file($file_tmp, "upload/" . $file_name);
-                unlink("upload/" . $_POST['prev_img']);
-            }
-        }
-
-        $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
-        $product_category = mysqli_real_escape_string($conn, $_POST['product_category']);
-        $product_price = mysqli_real_escape_string($conn, $_POST['product_price']);
-        $product_discount = mysqli_real_escape_string($conn, $_POST['product_discount']);
-        $product_stock = mysqli_real_escape_string($conn, $_POST['product_stock']);
-        $product_unit = mysqli_real_escape_string($conn, $_POST['product_unit']);
-        $product_description = mysqli_real_escape_string($conn, $_POST['product_description']);
-        $sql2 = "SELECT * FROM products WHERE name = '{$product_name}'";
-        $sql3 = "SELECT * FROM products WHERE product_id = {$product_id}";
-        $result2 = mysqli_query($conn, $sql2);
-        $result3 = mysqli_query($conn, $sql3);
-        $flag = 0;
-        if (mysqli_num_rows($result2) > 0) {
-            $flag = 1;
-        }
-
-        if (mysqli_fetch_assoc($result3)['name'] == $product_name) {
-            $flag = 2;
-        }
-
-        if ($flag == 1) {
-            alertPopup('Product already added 😞!');
-        } else {
-            $sql3 = "UPDATE products SET name = '{$product_name}', description = '{$product_description}', category = '{$product_category}', price = '{$product_price}', discount = '{$product_discount}', stock = '{$product_stock}', unit = '{$product_unit}', img_url = '{$file_name}' WHERE product_id = {$product_id}";
-            if (mysqli_query($conn, $sql3)) {
+            $sql2 = "UPDATE users SET role = '{$role}' WHERE user_id = {$user_id}";
+            if (mysqli_query($conn, $sql2)) {
                 echo "
                 <script>
                   setTimeout(()=>{
-                  window.location.href = '{$host}/dashboard/products.php';
+                  window.location.href = '{$host}/dashboard/users.php';
                   }, 1000)
                 </script>
                 ";
 
-                alertPopup('Product updated successfully 😊!');
+                alertPopup('User role updated 😊!');
             }
+            mysqli_close($conn);
         }
-
-        mysqli_close($conn);
-    }
     ?>
 
     <!-- update product funtionality end -->

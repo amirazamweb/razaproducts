@@ -2,7 +2,7 @@
 session_start();
 if (isset($_SESSION['user_id'])) {
     include '../includes/connect.php';
-         header("Location: {$host}dashboard/my-profile.php");
+    header("Location: {$host}dashboard/my-profile.php");
 }
 ?>
 
@@ -44,23 +44,34 @@ if (isset($_SESSION['user_id'])) {
         $phone = mysqli_real_escape_string($conn, $_POST['phone']);
         $password = mysqli_real_escape_string($conn, md5($_POST['password']));
 
-        $sql = "SELECT * FROM users WHERE phone = '{$phone}' AND password = '{$password}'";
+        $sql = "SELECT * FROM users WHERE phone = '{$phone}'";
 
         $result = mysqli_query($conn, $sql) or die("Query Failed");
 
         if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            $_SESSION['user_id'] = $row['user_id'];
-            $_SESSION['user_name'] = $row['name'];
-            $_SESSION['role'] = $row['role'];
-            alertPopup('User registered successfully 😊!');
-            echo "<script>
+            $sql2 = "SELECT * FROM users WHERE phone = '{$phone}' AND password ='{$password}'";
+            $result2 = mysqli_query($conn, $sql2);
+            if (mysqli_num_rows($result2) > 0) {
+                $row = mysqli_fetch_assoc($result2);
+                $_SESSION['user_id'] = $row['user_id'];
+                $_SESSION['user_name'] = $row['name'];
+                $_SESSION['role'] = $row['role'];
+                alertPopup('User registered successfully 😊!');
+                echo "<script>
          setTimeout(()=>{
-         window.location.href = '{$host}/login.php';
+         window.location.href = '{$host}/dashboard/my-profile.php';
          }, 1000)
          </script>";
+            } else {
+                alertPopup('Invalide crtedentials 😞!');
+            }
         } else {
-            alertPopup('Invalid credentials 😞!');
+            echo "<script>
+         setTimeout(()=>{
+         window.location.href = '{$host}/register.php';
+         }, 1000)
+         </script>";
+            alertPopup('No user found 😞!');
         }
 
         mysqli_close($conn);

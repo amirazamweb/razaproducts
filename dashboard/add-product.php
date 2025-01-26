@@ -132,7 +132,7 @@ if (!isset($_SESSION['user_id'])) {
                               </div>
                               <div class="row">
                                  <div class="col-sm-12">
-                                    <input type="submit" value="Save Product" class="btn btn-success" name="add-product" required>
+                                    <input type="submit" value="Save" class="btn btn-success" name="add-product" required>
                                  </div>
                               </div>
                            </form>

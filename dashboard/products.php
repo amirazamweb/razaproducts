@@ -130,7 +130,7 @@ if (!isset($_SESSION['user_id'])) {
                                  echo "</div";
                               }
                            } else {
-                              echo "<p class='text-danger'>No categories found !</p>";
+                              echo "<p class='text-danger'>No products found !</p>";
                            }
 
                            mysqli_close($conn);
