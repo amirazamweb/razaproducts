@@ -1,15 +1,16 @@
-
+<?php
+session_start();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
    
-<!-- Mirrored from askbootstrap.com/preview/groci/about.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 Jan 2025 11:13:43 GMT -->
 <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="Askbootstrap">
       <meta name="author" content="Askbootstrap">
-      <title>Groci - Organic Food & Grocery Market Template</title>
+      <title>About - Razaproducts</title>
       <!-- Favicon Icon -->
       <link rel="icon" type="image/png" href="img/favicon.png">
       <!-- Bootstrap core CSS -->
@@ -26,201 +27,13 @@
       <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
    </head>
    <body>
-      <div class="modal fade login-modal-main" id="bd-example-modal">
-         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-               <div class="modal-body">
-                  <div class="login-modal">
-                     <div class="row">
-                        <div class="col-lg-6 pad-right-0">
-                           <div class="login-modal-left">
-                           </div>
-                        </div>
-                        <div class="col-lg-6 pad-left-0">
-                           <button type="button" class="close close-top-right" data-dismiss="modal" aria-label="Close">
-                           <span aria-hidden="true"><i class="mdi mdi-close"></i></span>
-                           <span class="sr-only">Close</span>
-                           </button>
-                           <form>
-                              <div class="login-modal-right">
-                                 <!-- Tab panes -->
-                                 <div class="tab-content">
-                                    <div class="tab-pane active" id="login" role="tabpanel">
-                                       <h5 class="heading-design-h5">Login to your account</h5>
-                                       <fieldset class="form-group">
-                                          <label>Enter Email/Mobile number</label>
-                                          <input type="text" class="form-control" placeholder="+91 123 456 7890">
-                                       </fieldset>
-                                       <fieldset class="form-group">
-                                          <label>Enter Password</label>
-                                          <input type="password" class="form-control" placeholder="********">
-                                       </fieldset>
-                                       <fieldset class="form-group">
-                                          <button type="submit" class="btn btn-lg btn-secondary btn-block">Enter to your account</button>
-                                       </fieldset>
-                                       <div class="login-with-sites text-center">
-                                          <p>or Login with your social profile:</p>
-                                          <button class="btn-facebook login-icons btn-lg"><i class="mdi mdi-facebook"></i> Facebook</button>
-                                          <button class="btn-google login-icons btn-lg"><i class="mdi mdi-google"></i> Google</button>
-                                          <button class="btn-twitter login-icons btn-lg"><i class="mdi mdi-twitter"></i> Twitter</button>
-                                       </div>
-                                       <div class="custom-control custom-checkbox">
-                                          <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                          <label class="custom-control-label" for="customCheck1">Remember me</label>
-                                       </div>
-                                    </div>
-                                    <div class="tab-pane" id="register" role="tabpanel">
-                                       <h5 class="heading-design-h5">Register Now!</h5>
-                                       <fieldset class="form-group">
-                                          <label>Enter Email/Mobile number</label>
-                                          <input type="text" class="form-control" placeholder="+91 123 456 7890">
-                                       </fieldset>
-                                       <fieldset class="form-group">
-                                          <label>Enter Password</label>
-                                          <input type="password" class="form-control" placeholder="********">
-                                       </fieldset>
-                                       <fieldset class="form-group">
-                                          <label>Enter Confirm Password </label>
-                                          <input type="password" class="form-control" placeholder="********">
-                                       </fieldset>
-                                       <fieldset class="form-group">
-                                          <button type="submit" class="btn btn-lg btn-secondary btn-block">Create Your Account</button>
-                                       </fieldset>
-                                       <div class="custom-control custom-checkbox">
-                                          <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                          <label class="custom-control-label" for="customCheck2">I Agree with <a href="#">Term and Conditions</a></label>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="clearfix"></div>
-                                 <div class="text-center login-footer-tab">
-                                    <ul class="nav nav-tabs" role="tablist">
-                                       <li class="nav-item">
-                                          <a class="nav-link active" data-toggle="tab" href="#login" role="tab"><i class="mdi mdi-lock"></i> LOGIN</a>
-                                       </li>
-                                       <li class="nav-item">
-                                          <a class="nav-link" data-toggle="tab" href="#register" role="tab"><i class="mdi mdi-pencil"></i> REGISTER</a>
-                                       </li>
-                                    </ul>
-                                 </div>
-                                 <div class="clearfix"></div>
-                              </div>
-                           </form>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <nav class="navbar navbar-light navbar-expand-lg bg-dark bg-faded osahan-menu">
-         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html"> <img src="img/logo.png" alt="logo"> </a>
-			<a class="location-top" href="#"><i class="mdi mdi-map-marker-circle" aria-hidden="true"></i> New York</a>
-            <button class="navbar-toggler navbar-toggler-white" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse" id="navbarNavDropdown">
-               <div class="navbar-nav mr-auto mt-2 mt-lg-0 margin-auto top-categories-search-main">
-                  <div class="top-categories-search">
-                     <div class="input-group">
-                        <span class="input-group-btn categories-dropdown">
-                           <select class="form-control-select">
-                              <option selected="selected">Your City</option>
-                              <option value="0">New Delhi</option>
-                              <option value="2">Bengaluru</option>
-                              <option value="3">Hyderabad</option>
-                              <option value="4">Kolkata</option>
-                           </select>
-                        </span>
-                        <input class="form-control" placeholder="Search products in Your City" aria-label="Search products in Your City" type="text">
-                        <span class="input-group-btn">
-                        <button class="btn btn-secondary" type="button"><i class="mdi mdi-file-find"></i> Search</button>
-                        </span>
-                     </div>
-                  </div>
-               </div>
-               <div class="my-2 my-lg-0">
-                  <ul class="list-inline main-nav-right">
-                     <li class="list-inline-item">
-                        <a href="#" data-target="#bd-example-modal" data-toggle="modal" class="btn btn-link"><i class="mdi mdi-account-circle"></i> Login/Sign Up</a>
-                     </li>
-                     <li class="list-inline-item cart-btn">
-                        <a href="#" data-toggle="offcanvas" class="btn btn-link border-none"><i class="mdi mdi-cart"></i> My Cart <small class="cart-value">5</small></a>
-                     </li>
-                  </ul>
-               </div>
-            </div>
-         </div>
-      </nav>
-      <nav class="navbar navbar-expand-lg navbar-light osahan-menu-2 pad-none-mobile mb-0">
-         <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarText">
-               <ul class="navbar-nav mr-auto mt-2 mt-lg-0 margin-auto">
-                  <li class="nav-item">
-                     <a class="nav-link shop" href="index.html"><span class="mdi mdi-store"></span> Super Store</a>
-                  </li>
-				  <li class="nav-item">
-                     <a href="index.html" class="nav-link">Home</a>
-                  </li>
-				  <li class="nav-item">
-                     <a href="about.html" class="nav-link">About Us</a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="shop.html">Fruits & Vegetables</a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="shop.html">Grocery & Staples</a>
-                  </li>
-                  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     Pages
-                     </a>
-                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="shop.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> Shop Grid</a>
-                        <a class="dropdown-item" href="single.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> Single Product</a>
-                        <a class="dropdown-item" href="cart.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> Shopping Cart</a>
-                        <a class="dropdown-item" href="checkout.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> Checkout</a> 
-                     </div>
-                  </li>
-                  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     My Account
-                     </a>
-                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="my-profile.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i>  My Profile</a>
-                        <a class="dropdown-item" href="my-address.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i>  My Address</a>
-                        <a class="dropdown-item" href="wishlist.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i>  Wish List </a>
-                        <a class="dropdown-item" href="orderlist.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i>  Order List</a> 
-                     </div>
-                  </li>
-                  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     Blog Page
-                     </a>
-                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="blog.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> Blog</a>
-                        <a class="dropdown-item" href="blog-detail.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> Blog Detail</a>
-                     </div>
-                  </li>
-				  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     More Pages
-                     </a>
-                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="about.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i>  About Us</a>
-                        <a class="dropdown-item" href="contact.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i>  Contact Us</a>
-                        <a class="dropdown-item" href="faq.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i>  FAQ </a>
-                        <a class="dropdown-item" href="not-found.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i>  404 Error</a> 
-                     </div>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="contact.html">Contact</a>
-                  </li>
-               </ul>
-            </div>
-         </div>
-      </nav>
+   
+     <!-- header start -->
+     <?php
+       include 'header.php';
+       ?>
+       <!-- header end -->  
+      
       <!-- Inner Header -->
       <section class="section-padding bg-dark inner-header">
          <div class="container">
@@ -478,9 +291,13 @@
       <script src="vendor/owl-carousel/owl.carousel.js" type="07f77fd89f35b75ce2ba3569-text/javascript"></script>
       <!-- Custom -->
       <script src="js/custom.js" type="07f77fd89f35b75ce2ba3569-text/javascript"></script>
-   <script src="../../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="07f77fd89f35b75ce2ba3569-|49" defer></script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"8fb213c1b9e0e1ed","version":"2024.10.5","r":1,"serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"token":"dd471ab1978346bbb991feaa79e6ce5c","b":1}' crossorigin="anonymous"></script>
+   <script src="../../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="07f77fd89f35b75ce2ba3569-|49" defer></script>
+   
 </body>
 
-<!-- Mirrored from askbootstrap.com/preview/groci/about.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 Jan 2025 11:13:45 GMT -->
 </html>
+
+<script src="vendor/jquery/jquery.min.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
+   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
+   <script src="other/rocket-loader.min.js" data-cf-settings="c3d65250493e38dddb45a56a-|49" defer></script>
 

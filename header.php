@@ -1,3 +1,33 @@
+<?php
+$full_path_filename = $_SERVER['PHP_SELF'];
+$full_path = basename($full_path_filename);
+$filename = explode(".", $full_path);
+$current_page = $filename[0];
+
+if ($current_page == "index") {
+   $temp = "index";
+}
+if ($current_page == "about") {
+   $temp = "about";
+}
+if ($current_page == "product-category") {
+   $temp = "category";
+}
+if ($current_page == "cart") {
+   $temp = "cart";
+}
+if ($current_page == "blogs") {
+   $temp = "blogs";
+}
+if ($current_page == "faq") {
+   $temp = "faq";
+}
+if ($current_page == "contact") {
+   $temp = "contact";
+}
+
+?>
+
 <nav class="navbar navbar-light navbar-expand-lg bg-dark bg-faded osahan-menu">
    <div class="container-fluid">
       <a class="navbar-brand" href="index.html"> <img src="http://localhost/imran/img/logo.png" alt="logo"> </a>
@@ -18,23 +48,22 @@
          <div class="my-2 my-lg-0">
             <ul class="list-inline main-nav-right">
                <?php
-               if(!isset($_SESSION['user_id'])){
+               if (!isset($_SESSION['user_id'])) {
                   echo '<li class="list-inline-item">
                   <a href="login.php" class="btn btn-link"><i class="mdi mdi-account-circle"></i> Login/Sign Up</a>
                </li>';
-               }
-               else{
+               } else {
 
-               $name = $_SESSION['user_name'];
-               $position = strpos($name, ' ');
-            if($position!=false){
-                $sub_name = substr($name, 0, $position);
-                $name = $sub_name;
-            }
+                  $name = $_SESSION['user_name'];
+                  $position = strpos($name, ' ');
+                  if ($position != false) {
+                     $sub_name = substr($name, 0, $position);
+                     $name = $sub_name;
+                  }
 
-             echo '<li class="list-inline-item dropdown osahan-top-dropdown">
+                  echo '<li class="list-inline-item dropdown osahan-top-dropdown">
                         <a class="btn btn-theme-round dropdown-toggle dropdown-toggle-top-user" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img alt="logo" src="http://localhost/imran/img/user/profile-icon.jpg"><strong>Hi</strong> '.$name.'
+                        <img alt="logo" src="http://localhost/imran/img/user/profile-icon.jpg"><strong>Hi</strong> ' . $name . '
                         </a>
                         <div class="dropdown-menu dropdown-menu-right dropdown-list-design">
                            <a href="my-profile.html" class="dropdown-item"><i aria-hidden="true" class="mdi mdi-account-outline"></i>  My Profile</a>
@@ -60,64 +89,44 @@
       <div class="collapse navbar-collapse" id="navbarText">
          <ul class="navbar-nav mr-auto mt-2 mt-lg-0 margin-auto">
             <li class="nav-item">
-               <a class="nav-link shop" href="index.html"><span class="mdi mdi-store"></span> Super Store</a>
+               <a class="nav-link shop" href="/"><span class="mdi mdi-store"></span> Super Store</a>
             </li>
-            <li class="nav-item">
-               <a href="index.html" class="nav-link">Home</a>
+            <li class="nav-item <?php echo $temp=='index'?'active2':'' ?>">
+               <a href="/" class="nav-link">Home</a>
             </li>
-            <li class="nav-item">
-               <a href="about.html" class="nav-link">About Us</a>
+            <li class="nav-item <?php echo $temp=='about'?'active2':'' ?>">
+               <a href="/about.php" class="nav-link">About Us</a>
             </li>
-            <li class="nav-item">
-               <a class="nav-link" href="shop.html">Fruits & Vegetables</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link" href="shop.html">Grocery & Staples</a>
-            </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown <?php echo $temp=='category'?'active2':'' ?>">
                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Pages
+                  Category
                </a>
                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="shop.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> Shop Grid</a>
-                  <a class="dropdown-item" href="single.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> Single Product</a>
-                  <a class="dropdown-item" href="cart.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> Shopping Cart</a>
-                  <a class="dropdown-item" href="checkout.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> Checkout</a>
+                  <?php
+                  include "includes/connect.php";
+                  $sql = "SELECT * FROM categories";
+                  $result = mysqli_query($conn, $sql);
+                  if (mysqli_num_rows($result) > 0) {
+                     while ($row = mysqli_fetch_assoc($result)) {
+                  ?>
+                        <a class="dropdown-item" href="shop.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i><?php echo $row['cat_name'] ?></a>
+                  <?php
+                     }
+                  }
+                  ?>
                </div>
             </li>
-            <li class="nav-item dropdown">
-               <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  My Account
-               </a>
-               <div class="dropdown-menu">
-                  <a class="dropdown-item" href="my-profile.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> My Profile</a>
-                  <a class="dropdown-item" href="my-address.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> My Address</a>
-                  <a class="dropdown-item" href="wishlist.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> Wish List </a>
-                  <a class="dropdown-item" href="orderlist.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> Order List</a>
-               </div>
+            <li class="nav-item <?php echo $temp=='cart'?'active2':'' ?>">
+               <a href="/cart.php" class="nav-link">Cart</a>
             </li>
-            <li class="nav-item dropdown">
-               <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Blog Page
-               </a>
-               <div class="dropdown-menu">
-                  <a class="dropdown-item" href="blog.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> Blog</a>
-                  <a class="dropdown-item" href="blog-detail.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> Blog Detail</a>
-               </div>
+            <li class="nav-item <?php echo $temp=='blogs'?'active2':'' ?>">
+               <a href="/blogs.php" class="nav-link">Blogs</a>
             </li>
-            <li class="nav-item dropdown">
-               <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  More Pages
-               </a>
-               <div class="dropdown-menu">
-                  <a class="dropdown-item" href="about.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> About Us</a>
-                  <a class="dropdown-item" href="contact.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> Contact Us</a>
-                  <a class="dropdown-item" href="faq.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> FAQ </a>
-                  <a class="dropdown-item" href="not-found.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i> 404 Error</a>
-               </div>
+            <li class="nav-item <?php echo $temp=='faq'?'active2':'' ?>">
+               <a href="/faq.php" class="nav-link">FAQ</a>
             </li>
-            <li class="nav-item">
-               <a class="nav-link" href="contact.html">Contact</a>
+            <li class="nav-item <?php echo $temp=='contact'?'active2':'' ?>">
+               <a href="/contact.php" class="nav-link">Contact</a>
             </li>
          </ul>
       </div>
@@ -146,4 +155,3 @@ function alertPopup($val)
 </script>";
 }
 ?>
-

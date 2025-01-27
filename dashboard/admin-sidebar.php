@@ -5,8 +5,6 @@
   $filename = explode(".", $full_path);
   $current_page = $filename[0];
 
-  $current_page."<br>";
-
   if($current_page=="my-profile"){
     $temp ="profile";
   }
@@ -29,6 +27,10 @@
     $temp = "product";
   } 
   if($current_page=="users"){
+    $temp = "user";
+  }
+
+  if($current_page=="update-user"){
     $temp = "user";
   }
   

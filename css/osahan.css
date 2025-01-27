@@ -1,5 +1,12 @@
 @import 'https://fonts.googleapis.com/css?family=Maven+Pro:400,500,700,900|Roboto+Condensed:300,300i,400,400i,700,700i';
 
+
+.active2 a{
+    font-weight: 500;
+    background-color: #E2E2E2;
+}
+
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -1851,3 +1858,6 @@ label {
 .add-category-model-conatiner .fa-xmark:hover{
     color: red;
 }
+
+
+/* menu bar active menu link */

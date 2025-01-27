@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +10,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="Askbootstrap">
       <meta name="author" content="Askbootstrap">
-      <title>Groci - Organic Food & Grocery Market Template</title>
+      <title>Razaproducts - Home</title>
       <!-- Favicon Icon -->
       <link rel="icon" type="image/png" href="img/favicon.png">
       <!-- Bootstrap core CSS -->
@@ -23,12 +27,13 @@
       <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
    </head>
    <body>
-       <!-- login-signup-model end -->
+       
       <!-- header start -->
        <?php
        include 'header.php';
        ?>
        <!-- header end -->
+
       <section class="carousel-slider-main text-center border-top border-bottom bg-white">
          <div class="owl-carousel owl-carousel-slider">
             <div class="item">
@@ -523,6 +528,5 @@
    <script src="other/rocket-loader.min.js" data-cf-settings="c3d65250493e38dddb45a56a-|49" defer></script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"8fb213a22adee1ed","version":"2024.10.5","r":1,"serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"token":"dd471ab1978346bbb991feaa79e6ce5c","b":1}' crossorigin="anonymous"></script>
 </body>
 
-<!-- Mirrored from askbootstrap.com/preview/groci/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 Jan 2025 11:13:35 GMT -->
 </html>
 
