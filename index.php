@@ -50,242 +50,60 @@ session_start();
             </div>
          </div>
       </section>
-      <section class="top-category section-padding">
-         <div class="container">
-            <div class="owl-carousel owl-carousel-category">
-               <div class="item">
-                  <div class="category-item">
-                     <a href="shop.html">
-                        <img class="img-fluid" src="img/small/1.jpg" alt="">
-                        <h6>Fruits & Vegetables</h6>
-                        <p>150 Items</p>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="category-item">
-                     <a href="shop.html">
-                        <img class="img-fluid" src="img/small/2.jpg" alt="">
-                        <h6>Grocery & Staples</h6>
-                        <p>95 Items</p>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="category-item">
-                     <a href="shop.html">
-                        <img class="img-fluid" src="img/small/3.jpg" alt="">
-                        <h6>Beverages</h6>
-                        <p>65 Items</p>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="category-item">
-                     <a href="shop.html">
-                        <img class="img-fluid" src="img/small/4.jpg" alt="">
-                        <h6>Home & Kitchen</h6>
-                        <p>965 Items</p>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="category-item">
-                     <a href="shop.html">
-                        <img class="img-fluid" src="img/small/5.jpg" alt="">
-                        <h6>Furnishing & Home Needs</h6>
-                        <p>125 Items</p>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="category-item">
-                     <a href="shop.html">
-                        <img class="img-fluid" src="img/small/6.jpg" alt="">
-                        <h6>Household Needs</h6>
-                        <p>325 Items</p>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="category-item">
-                     <a href="shop.html">
-                        <img class="img-fluid" src="img/small/7.jpg" alt="">
-                        <h6>Personal Care</h6>
-                        <p>156 Items</p>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="category-item">
-                     <a href="shop.html">
-                        <img class="img-fluid" src="img/small/8.jpg" alt="">
-                        <h6>Breakfast & Dairy</h6>
-                        <p>857 Items</p>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="category-item">
-                     <a href="shop.html">
-                        <img class="img-fluid" src="img/small/9.jpg" alt="">
-                        <h6>Biscuits, Snacks & Chocolates</h6>
-                        <p>48 Items</p>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="category-item">
-                     <a href="shop.html">
-                        <img class="img-fluid" src="img/small/10.jpg" alt="">
-                        <h6>Noodles, Sauces & Instant Food</h6>
-                        <p>156 Items</p>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="category-item">
-                     <a href="shop.html">
-                        <img class="img-fluid" src="img/small/11.jpg" alt="">
-                        <h6>Pet Care</h6>
-                        <p>568 Items</p>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="category-item">
-                     <a href="shop.html">
-                        <img class="img-fluid" src="img/small/12.jpg" alt="">
-                        <h6>Meats, Frozen & Seafood</h6>
-                        <p>156 Items</p>
-                     </a>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </section>
+
+      <?php
+      include "includes/connect.php";
+      $sql = "SELECT DISTINCT category FROM products";
+      $result = mysqli_query($conn, $sql);
+      if(mysqli_num_rows($result)>0){
+         while($row = mysqli_fetch_assoc($result)){
+            $sql2 = "SELECT * FROM categories WHERE cat_id = {$row['category']}";
+            $result2 = mysqli_query($conn, $sql2);
+            $row2 = mysqli_fetch_assoc($result2);
+      ?>
       <section class="product-items-slider section-padding">
          <div class="container">
             <div class="section-header">
-               <h5 class="heading-design-h5">Top Savers Today <span class="badge badge-primary">20% OFF</span>
-                  <a class="float-right text-secondary" href="shop.html">View All</a>
+               <h5 class="heading-design-h5">Top <?php echo $row2['cat_name']?> Products</span>
+                 
+                  <!-- <a class="float-right text-secondary" href="shop.html">View All</a> -->
                </h5>
             </div>
             <div class="owl-carousel owl-carousel-featured">
+               <?php
+               $sql3 = "SELECT * FROM products WHERE category = {$row2['cat_id']}";
+               $result3 = mysqli_query($conn, $sql3);
+               // $sql4 = "SELECT COUNT(*) FROM products";
+               // $result4 = mysqli_query($conn, $sql4);
+               // echo $result4."Amir";
+               // die();
+               if(mysqli_num_rows($result3)>0){
+                  while($row3 = mysqli_fetch_assoc($result3)){
+               ?>
                <div class="item">
                   <div class="product">
                      <a href="single.html">
                         <div class="product-header">
-                           <span class="badge badge-success">50% OFF</span>
+                           <?php
+                           echo $row3['discount']>0?'<span class="badge badge-success">'.(floor(($row3['discount']*100)/$row3['price'])).'% OFF</span>':''
+                           ?>
                            <img class="img-fluid" src="img/item/1.jpg" alt="">
                            <span class="veg text-success mdi mdi-circle"></span>
                         </div>
                         <div class="product-body">
-                           <h5>Product Title Here</h5>
-                           <h6><strong><span class="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
+                           <h5 class="mb-3"><?php echo strlen($row3['name'])>19?substr($row3['name'], 0, 22)."....":$row3['name'] ?></h5>
                         </div>
                         <div class="product-footer">
                            <button type="button" class="btn btn-secondary btn-sm float-right"><i class="mdi mdi-cart-outline"></i> Add To Cart</button>
-                           <p class="offer-price mb-0">$450.99 <i class="mdi mdi-tag-outline"></i><br><span class="regular-price">$800.99</span></p>
+                           <p class="offer-price mb-0">₹<?php echo $row3['price'] ?><?php echo $row3['unit']=='weight'?'/KG':'' ?> <?php echo $row3['discount']>0? '<br><span class="regular-price">₹'.$row3['discount'].'</span>':'<br>&nbsp;' ?> </p>
                         </div>
                      </a>
                   </div>
                </div>
-               <div class="item">
-                  <div class="product">
-                     <a href="single.html">
-                        <div class="product-header">
-                           <span class="badge badge-success">50% OFF</span>
-                           <img class="img-fluid" src="img/item/2.jpg" alt="">
-                           <span class="non-veg text-danger mdi mdi-circle"></span>
-                        </div>
-                        <div class="product-body">
-                           <h5>Product Title Here</h5>
-                           <h6><strong><span class="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                        </div>
-                        <div class="product-footer">
-                           <button type="button" class="btn btn-secondary btn-sm float-right"><i class="mdi mdi-cart-outline"></i> Add To Cart</button>
-                           <p class="offer-price mb-0">$450.99 <i class="mdi mdi-tag-outline"></i><br><span class="regular-price">$800.99</span></p>
-                        </div>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="product">
-                     <a href="single.html">
-                        <div class="product-header">
-                           <span class="badge badge-success">50% OFF</span>
-                           <img class="img-fluid" src="img/item/3.jpg" alt="">
-                           <span class="non-veg text-danger mdi mdi-circle"></span>
-                        </div>
-                        <div class="product-body">
-                           <h5>Product Title Here</h5>
-                           <h6><strong><span class="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                        </div>
-                        <div class="product-footer">
-                           <button type="button" class="btn btn-secondary btn-sm float-right"><i class="mdi mdi-cart-outline"></i> Add To Cart</button>
-                           <p class="offer-price mb-0">$450.99 <i class="mdi mdi-tag-outline"></i><br><span class="regular-price">$800.99</span></p>
-                        </div>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="product">
-                     <a href="single.html">
-                        <div class="product-header">
-                           <span class="badge badge-success">50% OFF</span>
-                           <img class="img-fluid" src="img/item/4.jpg" alt="">
-                           <span class="veg text-success mdi mdi-circle"></span>
-                        </div>
-                        <div class="product-body">
-                           <h5>Product Title Here</h5>
-                           <h6><strong><span class="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                        </div>
-                        <div class="product-footer">
-                           <button type="button" class="btn btn-secondary btn-sm float-right"><i class="mdi mdi-cart-outline"></i> Add To Cart</button>
-                           <p class="offer-price mb-0">$450.99 <i class="mdi mdi-tag-outline"></i><br><span class="regular-price">$800.99</span></p>
-                        </div>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="product">
-                     <a href="single.html">
-                        <div class="product-header">
-                           <span class="badge badge-success">50% OFF</span>
-                           <img class="img-fluid" src="img/item/5.jpg" alt="">
-                           <span class="veg text-success mdi mdi-circle"></span>
-                        </div>
-                        <div class="product-body">
-                           <h5>Product Title Here</h5>
-                           <h6><strong><span class="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                        </div>
-                        <div class="product-footer">
-                           <button type="button" class="btn btn-secondary btn-sm float-right"><i class="mdi mdi-cart-outline"></i> Add To Cart</button>
-                           <p class="offer-price mb-0">$450.99 <i class="mdi mdi-tag-outline"></i><br><span class="regular-price">$800.99</span></p>
-                        </div>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="product">
-                     <a href="single.html">
-                        <div class="product-header">
-                           <span class="badge badge-success">50% OFF</span>
-                           <img class="img-fluid" src="img/item/6.jpg" alt="">
-                           <span class="veg text-success mdi mdi-circle"></span>
-                        </div>
-                        <div class="product-body">
-                           <h5>Product Title Here</h5>
-                           <h6><strong><span class="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                        </div>
-                        <div class="product-footer">
-                           <button type="button" class="btn btn-secondary btn-sm float-right"><i class="mdi mdi-cart-outline"></i> Add To Cart</button>
-                           <p class="offer-price mb-0">$450.99 <i class="mdi mdi-tag-outline"></i><br><span class="regular-price">$800.99</span></p>
-                        </div>
-                     </a>
-                  </div>
-               </div>
+               <?php
+               }
+            }
+               ?>
             </div>
          </div>
       </section>
@@ -301,131 +119,13 @@ session_start();
             </div>
          </div>
       </section>
-      <section class="product-items-slider section-padding">
-         <div class="container">
-            <div class="section-header">
-               <h5 class="heading-design-h5">Best Offers View <span class="badge badge-info">20% OFF</span>
-                  <a class="float-right text-secondary" href="shop.html">View All</a>
-               </h5>
-            </div>
-            <div class="owl-carousel owl-carousel-featured">
-               <div class="item">
-                  <div class="product">
-                     <a href="single.html">
-                        <div class="product-header">
-                           <span class="badge badge-success">50% OFF</span>
-                           <img class="img-fluid" src="img/item/7.jpg" alt="">
-                           <span class="veg text-success mdi mdi-circle"></span>
-                        </div>
-                        <div class="product-body">
-                           <h5>Product Title Here</h5>
-                           <h6><strong><span class="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                        </div>
-                        <div class="product-footer">
-                           <button type="button" class="btn btn-secondary btn-sm float-right"><i class="mdi mdi-cart-outline"></i> Add To Cart</button>
-                           <p class="offer-price mb-0">$450.99 <i class="mdi mdi-tag-outline"></i><br><span class="regular-price">$800.99</span></p>
-                        </div>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="product">
-                     <a href="single.html">
-                        <div class="product-header">
-                           <span class="badge badge-success">50% OFF</span>
-                           <img class="img-fluid" src="img/item/8.jpg" alt="">
-                           <span class="non-veg text-danger mdi mdi-circle"></span>
-                        </div>
-                        <div class="product-body">
-                           <h5>Product Title Here</h5>
-                           <h6><strong><span class="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                        </div>
-                        <div class="product-footer">
-                           <button type="button" class="btn btn-secondary btn-sm float-right"><i class="mdi mdi-cart-outline"></i> Add To Cart</button>
-                           <p class="offer-price mb-0">$450.99 <i class="mdi mdi-tag-outline"></i><br><span class="regular-price">$800.99</span></p>
-                        </div>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="product">
-                     <a href="single.html">
-                        <div class="product-header">
-                           <span class="badge badge-success">50% OFF</span>
-                           <img class="img-fluid" src="img/item/9.jpg" alt="">
-                           <span class="non-veg text-danger mdi mdi-circle"></span>
-                        </div>
-                        <div class="product-body">
-                           <h5>Product Title Here</h5>
-                           <h6><strong><span class="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                        </div>
-                        <div class="product-footer">
-                           <button type="button" class="btn btn-secondary btn-sm float-right"><i class="mdi mdi-cart-outline"></i> Add To Cart</button>
-                           <p class="offer-price mb-0">$450.99 <i class="mdi mdi-tag-outline"></i><br><span class="regular-price">$800.99</span></p>
-                        </div>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="product">
-                     <a href="single.html">
-                        <div class="product-header">
-                           <span class="badge badge-success">50% OFF</span>
-                           <img class="img-fluid" src="img/item/10.jpg" alt="">
-                           <span class="veg text-success mdi mdi-circle"></span>
-                        </div>
-                        <div class="product-body">
-                           <h5>Product Title Here</h5>
-                           <h6><strong><span class="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                        </div>
-                        <div class="product-footer">
-                           <button type="button" class="btn btn-secondary btn-sm float-right"><i class="mdi mdi-cart-outline"></i> Add To Cart</button>
-                           <p class="offer-price mb-0">$450.99 <i class="mdi mdi-tag-outline"></i><br><span class="regular-price">$800.99</span></p>
-                        </div>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="product">
-                     <a href="single.html">
-                        <div class="product-header">
-                           <span class="badge badge-success">50% OFF</span>
-                           <img class="img-fluid" src="img/item/11.jpg" alt="">
-                           <span class="veg text-success mdi mdi-circle"></span>
-                        </div>
-                        <div class="product-body">
-                           <h5>Product Title Here</h5>
-                           <h6><strong><span class="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                        </div>
-                        <div class="product-footer">
-                           <button type="button" class="btn btn-secondary btn-sm float-right"><i class="mdi mdi-cart-outline"></i> Add To Cart</button>
-                           <p class="offer-price mb-0">$450.99 <i class="mdi mdi-tag-outline"></i><br><span class="regular-price">$800.99</span></p>
-                        </div>
-                     </a>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="product">
-                     <a href="single.html">
-                        <div class="product-header">
-                           <span class="badge badge-success">50% OFF</span>
-                           <img class="img-fluid" src="img/item/12.jpg" alt="">
-                           <span class="veg text-success mdi mdi-circle"></span>
-                        </div>
-                        <div class="product-body">
-                           <h5>Product Title Here</h5>
-                           <h6><strong><span class="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6>
-                        </div>
-                        <div class="product-footer">
-                           <button type="button" class="btn btn-secondary btn-sm float-right"><i class="mdi mdi-cart-outline"></i> Add To Cart</button>
-                           <p class="offer-price mb-0">$450.99 <i class="mdi mdi-tag-outline"></i><br><span class="regular-price">$800.99</span></p>
-                        </div>
-                     </a>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </section>
+
+      <?php 
+      }
+   }
+      ?>
+
+
       <section class="section-padding bg-white border-top">
          <div class="container">
             <div class="row">
