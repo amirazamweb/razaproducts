@@ -109,7 +109,7 @@ if ($current_page == "contact") {
                   if (mysqli_num_rows($result) > 0) {
                      while ($row = mysqli_fetch_assoc($result)) {
                   ?>
-                        <a class="dropdown-item" href="shop.html"><i class="mdi mdi-chevron-right" aria-hidden="true"></i><?php echo $row['cat_name'] ?></a>
+                        <a class="dropdown-item" href="/product-category.php?cat_id=<?php echo $row['cat_id'] ?>"><i class="mdi mdi-chevron-right" aria-hidden="true"></i><?php echo $row['cat_name'] ?></a>
                   <?php
                      }
                   }

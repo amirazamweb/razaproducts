@@ -66,23 +66,19 @@ session_start();
             <div class="section-header">
                <h5 class="heading-design-h5">Top <?php echo $row2['cat_name']?> Products</span>
                  
-                  <!-- <a class="float-right text-secondary" href="shop.html">View All</a> -->
+                  <a class="float-right text-secondary" href="shop.html">View All</a>
                </h5>
             </div>
             <div class="owl-carousel owl-carousel-featured">
                <?php
                $sql3 = "SELECT * FROM products WHERE category = {$row2['cat_id']}";
                $result3 = mysqli_query($conn, $sql3);
-               // $sql4 = "SELECT COUNT(*) FROM products";
-               // $result4 = mysqli_query($conn, $sql4);
-               // echo $result4."Amir";
-               // die();
                if(mysqli_num_rows($result3)>0){
                   while($row3 = mysqli_fetch_assoc($result3)){
                ?>
                <div class="item">
                   <div class="product">
-                     <a href="single.html">
+                     <a href="product-details.php?product_id=<?php echo $row3['product_id'] ?>">
                         <div class="product-header">
                            <?php
                            echo $row3['discount']>0?'<span class="badge badge-success">'.(floor(($row3['discount']*100)/$row3['price'])).'% OFF</span>':''
@@ -95,7 +91,8 @@ session_start();
                         </div>
                         <div class="product-footer">
                            <button type="button" class="btn btn-secondary btn-sm float-right"><i class="mdi mdi-cart-outline"></i> Add To Cart</button>
-                           <p class="offer-price mb-0">₹<?php echo $row3['price'] ?><?php echo $row3['unit']=='weight'?'/KG':'' ?> <?php echo $row3['discount']>0? '<br><span class="regular-price">₹'.$row3['discount'].'</span>':'<br>&nbsp;' ?> </p>
+
+                           <p class="offer-price mb-0">₹<?php echo ($row3['price']-$row3['discount']) ?><?php echo $row3['unit']=='weight'?'/KG':'' ?> <?php echo $row3['discount']>0? '<br><span class="regular-price">₹'.$row3['price'].'</span>':'<br>&nbsp;' ?> </p>
                         </div>
                      </a>
                   </div>

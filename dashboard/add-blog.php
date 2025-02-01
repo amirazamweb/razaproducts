@@ -1,8 +1,8 @@
 <?php
 session_start();
-include "includes/connect.php";
-if(!isset($_GET['cat_id'])){
-  header("Location: {$host}"); 
+if (!isset($_SESSION['user_id'])) {
+   include '../includes/connect.php';
+   header("Location: {$host}/login.php");
 }
 ?>
 
@@ -14,133 +14,79 @@ if(!isset($_GET['cat_id'])){
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
    <meta name="description" content="Askbootstrap">
    <meta name="author" content="Askbootstrap">
-   <title><?php
-            $cat_id = $_GET['cat_id'];
-            $sql = "SELECT * FROM categories WHERE cat_id = {$cat_id}";
-            $result = mysqli_query($conn, $sql);
-            if (mysqli_num_rows($result) > 0) {
-               while ($row = mysqli_fetch_assoc($result)) {
-                  echo $row['cat_name'];
-               }
-            } else {
-               echo "";
-            }
-
-            ?> Category - Raza Product</title>
+   <title>Add Blog - Dashboard</title>
    <!-- Favicon Icon -->
-   <link rel="icon" type="image/png" href="img/favicon.png">
+   <link rel="icon" type="image/png" href="../img/favicon.png">
    <!-- Bootstrap core CSS -->
-   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
    <!-- Material Design Icons -->
-   <link href="vendor/icons/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
+   <link href="../vendor/icons/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
    <!-- Select2 CSS -->
-   <link href="vendor/select2/css/select2-bootstrap.css" />
-   <link href="vendor/select2/css/select2.min.css" rel="stylesheet" />
+   <link href="../vendor/select2/css/select2-bootstrap.css" />
+   <link href="../vendor/select2/css/select2.min.css" rel="stylesheet" />
    <!-- Custom styles for this template -->
-   <link href="css/osahan.css" rel="stylesheet">
+   <link href="../css/osahan.css" rel="stylesheet">
    <!-- Owl Carousel -->
-   <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
-   <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+   <link rel="stylesheet" href="../vendor/owl-carousel/owl.carousel.css">
+   <link rel="stylesheet" href="../vendor/owl-carousel/owl.theme.css">
 </head>
 
 <body>
-
-   <!-- header start -->
    <?php
-   include 'header.php';
+   include '../header.php';
    ?>
-   <!-- header end -->
-
-   <section class="pt-3 pb-3 page-info section-padding border-bottom bg-white">
+   <section class="account-page section-padding">
       <div class="container">
          <div class="row">
-            <div class="col-md-12">
-               <a href="/"><strong><span class="mdi mdi-home"></span> Home</strong></a> <span class="mdi mdi-chevron-right"></span> <a href="#">Category</a>
-            </div>
-         </div>
-      </div>
-   </section>
-   <section class="shop-list section-padding">
-      <div class="container">
-         <div class="row">
-            <div class="col-md-12">
-               <div class="shop-head">
-                  <h5 class="mb-3 fw-bolder">
-                     <?php
-                     $sql2 = "SELECT * FROM categories WHERE cat_id = {$cat_id}";
-                     $result2 = mysqli_query($conn, $sql2);
-                     if (mysqli_num_rows($result2) > 0) {
-                        while ($row2 = mysqli_fetch_assoc($result2)) {
-                           echo $row2['cat_name'];
-                        }
-                     } else {
-                        echo "";
-                     }
-
-                     ?>
-                  </h5>
-               </div>
+            <div class="col-lg-9 mx-auto">
                <div class="row no-gutters">
-                  <?php
-               
-                  $sql3 = "SELECT * FROM categories LEFT JOIN products ON categories.cat_id = products.category WHERE cat_id = {$cat_id}";
-                  $result3 = mysqli_query($conn, $sql3);
-                  if (mysqli_num_rows($result3) > 0) {
-                     while ($row3 = mysqli_fetch_assoc($result3)) {
-                  ?>
-                  
-                        <div class="col-md-3 p-1">
-                           <div class="product">
-                              <a href="product-details.php?product_id=<?php echo $row3['product_id'] ?>">
-                                 <div class="product-header">
-                                    <?php
-                                    if ($row3['discount'] > 0) {
-                                       echo '<span class="badge badge-success">' . (floor(($row3['discount'] * 100) / $row3['price'])) . '% OFF</span>';
-                                    }
-                                    ?>
-                                    <img class="img-fluid" src="img/item/1.jpg" alt="">
-                                    <span class="veg text-success mdi mdi-circle"></span>
-                                 </div>
-                                 <div class="product-body">
-                                    <h5 class="mb-3"><?php echo strlen($row3['name'])>30?substr($row3['name'], 0, 30)."....":$row3['name'] ?></h5>
-                                    <!-- <h6><strong><span class="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6> -->
-                                 </div>
-                                 <div class="product-footer">
-                                    <button type="button" class="btn btn-secondary btn-sm float-right"><i class="mdi mdi-cart-outline"></i> Add To Cart</button>
 
-                                    <p class="offer-price mb-0">₹<?php echo ($row3['price']-$row3['discount']) ?><?php echo $row3['unit']=='weight'?'/KG':'' ?> <?php echo $row3['discount']>0? '<br><span class="regular-price">₹'.$row3['price'].'</span>':'<br>&nbsp;' ?> </p>
-                                 </div>
-                              </a>
+                  <?php include 'admin-sidebar.php'; ?>
+
+                  <div class="col-md-8">
+                     <div class="card card-body account-right">
+                        <div class="widget">
+                           <div class="section-header">
+                              <h5 class="heading-design-h5">
+                                 Add Blog
+                              </h5>
                            </div>
+                           <form method="POST" enctype="multipart/form-data" action="<?php $_SERVER['PHP_SELF']; ?>">
+                              <div class="row">
+                                 <div class="col-12">
+                                    <div class="form-group">
+                                       <label class="control-label">Title <span class="required">*</span></label>
+                                       <input class="form-control border-form-control" value="" placeholder="enter title" type="text" name="blog_title" required />
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-sm-12">
+                                    <div class="form-group">
+                                       <label class="control-label">Description <span class="required">*</span></label>
+                                       <textarea class="form-control border-form-control" name="blog_desc" placeholder="enter blog description" required></textarea>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-sm-12">
+                                    <div class="form-group">
+                                       <label class="control-label">Blog Image <span class="required">*</span></label>
+                                       <br>
+                                       <input type="file" required name="blog_img">
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-sm-12">
+                                    <input type="submit" value="Save" class="btn btn-success" name="add-blog" required>
+                                 </div>
+                              </div>
+                           </form>
                         </div>
-
-                  <?php
-                     }
-                  }
-                  else{
-                     echo "<p class='container mt-4 text-danger' style='min-height:50vh;'>No product found</p>";
-                  }
-                  ?>
-
+                     </div>
+                  </div>
                </div>
-               <!-- <nav>
-                  <ul class="pagination justify-content-center mt-4">
-                     <li class="page-item disabled">
-                        <span class="page-link">Previous</span>
-                     </li>
-                     <li class="page-item"><a class="page-link" href="#">1</a></li>
-                     <li class="page-item active">
-                        <span class="page-link">
-                           2
-                           <span class="sr-only">(current)</span>
-                        </span>
-                     </li>
-                     <li class="page-item"><a class="page-link" href="#">3</a></li>
-                     <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                     </li>
-                  </ul>
-               </nav> -->
             </div>
          </div>
       </div>
@@ -180,7 +126,7 @@ if(!isset($_GET['cat_id'])){
                <h4 class="mb-5 mt-0"><a class="logo" href="index.html"><img src="img/logo-footer.png" alt="Groci"></a></h4>
                <p class="mb-0"><a class="text-dark" href="#"><i class="mdi mdi-phone"></i> +61 525 240 310</a></p>
                <p class="mb-0"><a class="text-dark" href="#"><i class="mdi mdi-cellphone-iphone"></i> 12345 67890, 56847-98562</a></p>
-               <p class="mb-0"><a class="text-success" href="#"><i class="mdi mdi-email"></i> <span class="__cf_email__" data-cfemail="7e171f13110d1f161f103e19131f1712501d1113">[email&#160;protected]</span></a></p>
+               <p class="mb-0"><a class="text-success" href="#"><i class="mdi mdi-email"></i> <span class="__cf_email__" data-cfemail="86efe7ebe9f5e7eee7e8c6e1ebe7efeaa8e5e9eb">[email&#160;protected]</span></a></p>
                <p class="mb-0"><a class="text-primary" href="#"><i class="mdi mdi-web"></i> www.askbootstrap.com</a></p>
             </div>
             <div class="col-lg-2 col-md-2">
@@ -308,21 +254,77 @@ if(!isset($_GET['cat_id'])){
          <a href="checkout.html"><button class="btn btn-secondary btn-lg btn-block text-left" type="button"><span class="float-left"><i class="mdi mdi-cart-outline"></i> Proceed to Checkout </span><span class="float-right"><strong>$1200.69</strong> <span class="mdi mdi-chevron-right"></span></span></button></a>
       </div>
    </div>
+
+   <?php
+   if (isset($_POST['add-blog'])) {
+      include '../includes/connect.php';
+
+      if (isset($_FILES['blog_img'])) {
+         $errors = [];
+         $file_name = $_FILES['blog_img']['name'];
+         $file_type = $_FILES['blog_img']['type'];
+         $file_tmp = $_FILES['blog_img']['tmp_name'];
+         $file_size = $_FILES['blog_img']['size'];
+         $expl = explode('.', $file_name);
+         $ext_end = (end($expl));
+         $file_ext = strtolower($ext_end);
+         $extensions = ['jpeg', 'jpg', 'png'];
+
+         if (in_array($file_ext, $extensions) == false) {
+            $errors[] = "This extension file not allowed. Plesae choose a JPG or PNG file.";
+            alertPopup('Plesae choose a JPG or PNG image 😞!');
+            die();
+         }
+
+         if ($file_size > 2097152) {
+            $errors[] = "File size is more than 2 MB.";
+            alertPopup('Please select file size less than 2 MB 😞!');
+            die();
+         }
+
+         if (empty($errors)) {
+
+            $blog_title = mysqli_real_escape_string($conn, $_POST['blog_title']);
+            $blog_desc = mysqli_real_escape_string($conn, $_POST['blog_desc']);
+            $user_id = $_SESSION['user_id'];
+            $blog_date = date('Y-m-d');
+
+            $sql = "SELECT * FROM blogs WHERE blog_title = '{$blog_title}'";
+            $result = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result) > 0) {
+               alertPopup('Blog already added 😞!');
+            } else {
+               $sql2 = "INSERT INTO blogs(blog_title, blog_desc, user_id, blog_date, blog_img) VALUES ('{$blog_title}', '{$blog_desc}', $user_id, '{$blog_date}', '{$file_name}')";
+               if (mysqli_query($conn, $sql2)) {
+                  echo "<script>
+                        setTimeout(()=>{
+                        window.location.href = '{$host}/dashboard/blog-list.php';
+                         }, 1000)
+                        </script>";
+
+                  move_uploaded_file($file_tmp, "upload/blog/" . $file_name);
+                  alertPopup('Blog added successfully 😊!');
+               }
+            }
+         }
+      }
+
+      mysqli_close($conn);
+   }
+   ?>
+
    <!-- Bootstrap core JavaScript -->
-   <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-   <script src="vendor/jquery/jquery.min.js" type="b907ec35c033d4b347859ecf-text/javascript"></script>
-   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js" type="b907ec35c033d4b347859ecf-text/javascript"></script>
+   <script data-cfasync="false" src="../other/email-decode.min.js"></script>
+   <script src="../vendor/jquery/jquery.min.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
+   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
    <!-- select2 Js -->
-   <script src="vendor/select2/js/select2.min.js" type="b907ec35c033d4b347859ecf-text/javascript"></script>
+   <script src="../vendor/select2/js/select2.min.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
    <!-- Owl Carousel -->
-   <script src="vendor/owl-carousel/owl.carousel.js" type="b907ec35c033d4b347859ecf-text/javascript"></script>
+   <script src="../vendor/owl-carousel/owl.carousel.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
    <!-- Custom -->
-   <script src="js/custom.js" type="b907ec35c033d4b347859ecf-text/javascript"></script>
-   <script src="../../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="b907ec35c033d4b347859ecf-|49" defer></script>
+   <script src="../js/custom.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
+   <script src="../other/rocket-loader.min.js" data-cf-settings="c3d65250493e38dddb45a56a-|49" defer></script>
+   <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"8fb213a22adee1ed","version":"2024.10.5","r":1,"serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"token":"dd471ab1978346bbb991feaa79e6ce5c","b":1}' crossorigin="anonymous"></script>
 </body>
 
 </html>
-
-<script src="vendor/jquery/jquery.min.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
-<script src="other/rocket-loader.min.js" data-cf-settings="c3d65250493e38dddb45a56a-|49" defer></script>

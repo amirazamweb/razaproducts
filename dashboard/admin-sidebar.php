@@ -33,6 +33,18 @@
   if($current_page=="update-user"){
     $temp = "user";
   }
+
+  if($current_page=="blog-list"){
+    $temp = "blog";
+  }
+
+  if($current_page=="add-blog"){
+    $temp = "blog";
+  }
+
+  if($current_page=="update-blog"){
+    $temp = "blog";
+  }
   
 ?>
 
@@ -69,11 +81,13 @@
 
             <a href="my-profile.php" class="list-group-item list-group-item-action <?php echo $temp=='profile'?'active':'' ?>"><i aria-hidden="true" class="mdi mdi-account-outline"></i> My Profile</a>
 
-            <a href="category.php" class="list-group-item list-group-item-action <?php echo $temp=='category'?'active':'' ?>"><i aria-hidden="true" class="mdi mdi-food-apple"></i> Category List</a>
+            <a href="category.php" class="list-group-item list-group-item-action <?php echo $temp=='category'?'active':'' ?>"><i aria-hidden="true" class="mdi mdi-food-apple"></i> Categories</a>
 
-            <a href="products.php" class="list-group-item list-group-item-action <?php echo $temp=='product'?'active':'' ?>"><i aria-hidden="true" class="mdi mdi-food-fork-drink"></i> Product List </a>
+            <a href="products.php" class="list-group-item list-group-item-action <?php echo $temp=='product'?'active':'' ?>"><i aria-hidden="true" class="mdi mdi-food-fork-drink"></i> Products </a>
 
-            <a href="users.php" class="list-group-item list-group-item-action <?php echo $temp=='user'?'active':'' ?>"><i aria-hidden="true" class="mdi mdi-human-male-female"></i> User List</a>
+            <a href="users.php" class="list-group-item list-group-item-action <?php echo $temp=='user'?'active':'' ?>"><i aria-hidden="true" class="mdi mdi-human-male-female"></i> Users</a>
+
+            <a href="blog-list.php" class="list-group-item list-group-item-action <?php echo $temp=='blog'?'active':'' ?>"><i aria-hidden="true" class="mdi mdi-clipboard-text"></i> Blogs</a>
 
             <a href="logout.php" class="list-group-item list-group-item-action"><i aria-hidden="true" class="mdi mdi-lock"></i> Logout</a>
         </div>

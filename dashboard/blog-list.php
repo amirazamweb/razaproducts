@@ -1,113 +1,131 @@
 <?php
 session_start();
+if (!isset($_SESSION['user_id'])) {
+    include '../includes/connect.php';
+         header("Location: {$host}/login.php");
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-   
 <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="Askbootstrap">
       <meta name="author" content="Askbootstrap">
-      <title>My Blogs</title>
+      <title>Blogs - Admin Panel</title>
       <!-- Favicon Icon -->
-      <link rel="icon" type="image/png" href="img/favicon.png">
+      <link rel="icon" type="image/png" href="../img/favicon.png">
       <!-- Bootstrap core CSS -->
-      <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
       <!-- Material Design Icons -->
-      <link href="vendor/icons/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
+      <link href="../vendor/icons/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
       <!-- Select2 CSS -->
-      <link href="vendor/select2/css/select2-bootstrap.css" />
-      <link href="vendor/select2/css/select2.min.css" rel="stylesheet" />
+      <link href="../vendor/select2/css/select2-bootstrap.css" />
+      <link href="../vendor/select2/css/select2.min.css" rel="stylesheet" />
       <!-- Custom styles for this template -->
-      <link href="css/osahan.css" rel="stylesheet">
+      <link href="../css/osahan.css" rel="stylesheet">
       <!-- Owl Carousel -->
-      <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
-      <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+      <link rel="stylesheet" href="../vendor/owl-carousel/owl.carousel.css">
+      <link rel="stylesheet" href="../vendor/owl-carousel/owl.theme.css">
    </head>
    <body>
       
-   <!-- header start -->
    <?php
-       include 'header.php';
-       ?>
-       <!-- header end -->   
+   include '../header.php';
+   ?>
 
-      <section class="blog-page section-padding">
+      <section class="account-page section-padding">
          <div class="container">
             <div class="row">
-               <div class="col-md-8">
-                  <?php
-                  include 'includes/connect.php';
-                  $sql = "SELECT * FROM blogs LEFT JOIN users ON blogs.user_id = users.user_id ORDER BY blog_id DESC";
-                  $result = mysqli_query($conn, $sql);
-                  if(mysqli_num_rows($result)>0){
-                     while($row = mysqli_fetch_assoc($result)){
-                  ?>
-                  <div class="card blog mb-4">
-                     <div class="blog-header">	
-                        <a href="#"><img class="card-img-top" src="img/blog/1.png" alt="Card image cap"></a>
-                     </div>
-                     <div class="card-body">
-                        <h5 class="card-title"><a href="#"><?php echo $row['blog_title'] ?></a></h5>
-                        <div class="entry-meta">
-                           <ul class="tag-info list-inline">
-                              <li class="list-inline-item"><a href="#"><i class="mdi mdi-calendar"></i>  <?php echo $row['blog_date'] ?></a></li>
-                              <li class="list-inline-item"><i class="mdi mdi-account"></i> <a rel="category tag" href="#"><?php echo $row['name'] ?></a></li>
-                           </ul>
-                        </div>
-                        <p class="card-text"><?php echo strlen($row['blog_desc'])>375?substr($row['blog_desc'], 0, 372)."....":$row['blog_desc'] ?>
-                        </p>
-                        <a href="#">READ MORE <span class="mdi mdi-chevron-right"></span></a>
-                     </div>
-                  </div>
-                  <?php
-                  }
-               }
-               else{
-                  echo "<p class='container mt-4 text-danger' style='min-height:50vh;'>No blog found</p>";
-               }
-                  ?>
-                  
-                  <ul class="pagination justify-content-center mt-4">
-                     <li class="page-item disabled">
-                        <span class="page-link">Previous</span>
-                     </li>
-                     <li class="page-item"><a href="#" class="page-link">1</a></li>
-                     <li class="page-item active">
-                        <span class="page-link">
-                        2
-                        <span class="sr-only">(current)</span>
-                        </span>
-                     </li>
-                     <li class="page-item"><a href="#" class="page-link">3</a></li>
-                     <li class="page-item">
-                        <a href="#" class="page-link">Next</a>
-                     </li>
-                  </ul>
-               </div>
-               <div class="col-md-4">
-                  <div class="card sidebar-card mb-4">
-                     <div class="card-body">
-                        <div class="input-group">
-                           <input type="text" placeholder="Search For" class="form-control">
-                           <div class="input-group-append">
-                              <button type="button" class="btn btn-secondary">Search <i class="mdi mdi-arrow-right"></i></button>
+               <div class="col-lg-9 mx-auto">
+                  <div class="row no-gutters">
+
+                     <?php include 'admin-sidebar.php'; ?>
+                     
+                     <div class="col-md-8">
+                        <div class="card card-body account-right">
+                           <div class="widget">
+                              <div class="section-header">
+                                 <h5 class="heading-design-h5 category-title">
+                                    Blog List
+                                    <a href="add-blog.php"><button class="btn btn-success">Add Blog</button></a>
+                                 </h5>
+                              </div>
+                              <div class="order-list-tabel-main table-responsive">
+                              <?php 
+                                       include '../includes/connect.php';
+                                       $limit = 7;
+                                       if(isset($_GET['page'])){
+                                          $page = $_GET['page'];
+                                       }
+                                       else{
+                                          $page = 1;
+                                       }
+                                       $offset = ($page-1)*$limit;
+                                       $sql = "SELECT * FROM blogs LEFT JOIN users ON blogs.user_id = users.user_id ORDER BY blog_id DESC LIMIT {$offset}, {$limit}";
+                                       $result = mysqli_query($conn, $sql);
+                                       if(mysqli_num_rows($result)>0){
+                                         echo '
+                                         <table class="datatabel table table-striped table-bordered order-list-tabel" width="100%" cellspacing="0">
+                                    <thead>
+                                       <tr>
+                                          <th>#Blog</th>
+                                          <th>Blog Title</th>
+                                          <th>User</th>
+                                          <th>Action</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                         ';
+                                          while($row = mysqli_fetch_assoc($result)){
+                                       ?>
+                                     <tr>
+                                          <td>#<?php echo $row['blog_id']; ?></td>
+                                          <td><?php echo $row['blog_title']; ?></td>
+                                          <td><?php echo $row['name']; ?></td>
+                                          <td><a data-toggle="tooltip" data-placement="top" title="Edit" href="update-blog.php?blog_id=<?php echo $row['blog_id']; ?>" data-original-title="View Detail" class="btn btn-info btn-sm"><i class="mdi mdi-border-color"></i></a>
+                                          <a data-toggle="tooltip" data-placement="top" title="Delete" href="delete-blog.php?blog_id=<?php echo $row['blog_id']; ?>" data-original-title="View Detail" class="btn btn-danger btn-sm"><i class="mdi mdi-delete"></i></a>
+                                       </td>
+                                       </tr>
+
+                                       <?php  
+                                        }
+                                        echo "</tbody>
+                                        </table>
+                                        ";
+                                        $sql2 = "SELECT * FROM blogs";
+                                        $result2 = mysqli_query($conn, $sql2);
+                                        if(mysqli_num_rows($result2)>$limit){
+                                          echo "<div class='text-center'>";
+                                          if($page>1){
+                                             echo "<a href='blog-list.php?page=".($page-1)."' class='btn btn-info btn-sm mx-1'>Prev<a>";
+                                          }
+                                          $total_records = mysqli_num_rows($result2);
+                                          $total_pages = ceil($total_records/$limit);
+                                          for($i=1; $i <= $total_pages; $i++){
+                                           if($i==$page){
+                                             echo "<a href='blog-list.php?page=".$i."' class='btn btn-info btn-sm mx-1 active'>".$i."<a>"; 
+                                           } 
+                                           else{
+                                             echo "<a href='blog-list.php?page=".$i."' class='btn btn-info btn-sm mx-1'>".$i."<a>"; 
+                                           }
+                                          }
+                                         if($page<$total_pages){
+                                          echo "<a href='blog-list.php?page=".($page+1)."' class='btn btn-info btn-sm mx-1'>Next<a>";
+                                         }
+                                          echo "</div";
+                                        }
+                                       }
+                                       else{
+                                          echo "<p class='text-danger'>No blogs found !</p>";
+                                       }
+
+                                       mysqli_close($conn);
+                                       ?>
+                              </div>
                            </div>
                         </div>
-                     </div>
-                  </div>
-                  <div class="card sidebar-card mb-4">
-                     <div class="card-body">
-                        <h5 class="card-title mb-3">Recent Blogs</h5>
-                        <ul class="sidebar-card-list">
-                           <li><a href="#"><i class="mdi mdi-chevron-right"></i> Audio</a></li>
-                           <li><a href="#"><i class="mdi mdi-chevron-right"></i> Gallery</a></li>
-                           <li><a href="#"><i class="mdi mdi-chevron-right"></i> Image</a></li>
-                           <li><a href="#"><i class="mdi mdi-chevron-right"></i> Uncategorized</a></li>
-                           <li><a href="#"><i class="mdi mdi-chevron-right"></i> Video</a></li>
-                        </ul>
                      </div>
                   </div>
                </div>
@@ -149,7 +167,7 @@ session_start();
                   <h4 class="mb-5 mt-0"><a class="logo" href="index.html"><img src="img/logo-footer.png" alt="Groci"></a></h4>
                   <p class="mb-0"><a class="text-dark" href="#"><i class="mdi mdi-phone"></i> +61 525 240 310</a></p>
                   <p class="mb-0"><a class="text-dark" href="#"><i class="mdi mdi-cellphone-iphone"></i> 12345 67890, 56847-98562</a></p>
-                  <p class="mb-0"><a class="text-success" href="#"><i class="mdi mdi-email"></i> <span class="__cf_email__" data-cfemail="4e272f23213d2f262f200e29232f2722602d2123">[email&#160;protected]</span></a></p>
+                  <p class="mb-0"><a class="text-success" href="#"><i class="mdi mdi-email"></i> <span class="__cf_email__" data-cfemail="94fdf5f9fbe7f5fcf5fad4f3f9f5fdf8baf7fbf9">[email&#160;protected]</span></a></p>
                   <p class="mb-0"><a class="text-primary" href="#"><i class="mdi mdi-web"></i> www.askbootstrap.com</a></p>
                </div>
                <div class="col-lg-2 col-md-2">
@@ -208,9 +226,9 @@ session_start();
             <div class="row no-gutters">
                <div class="col-lg-6 col-sm-6">
                   <p class="mt-1 mb-0">&copy; Copyright 2020 <strong class="text-dark">Groci</strong>. All Rights Reserved<br>
-                     <small class="mt-0 mb-0">Made with <i class="mdi mdi-heart text-danger"></i> by <a href="https://askbootstrap.com/" target="_blank" class="text-primary">Ask Bootstrap</a>
-                     </small>
-                  </p>
+				  <small class="mt-0 mb-0">Made with <i class="mdi mdi-heart text-danger"></i> by <a href="https://askbootstrap.com/" target="_blank" class="text-primary">Ask Bootstrap</a>
+                  </small>
+				  </p>
                </div>
                <div class="col-lg-6 col-sm-6 text-right">
                   <img alt="osahan logo" src="img/payment_methods.png">
@@ -277,21 +295,21 @@ session_start();
             <a href="checkout.html"><button class="btn btn-secondary btn-lg btn-block text-left" type="button"><span class="float-left"><i class="mdi mdi-cart-outline"></i> Proceed to Checkout </span><span class="float-right"><strong>$1200.69</strong> <span class="mdi mdi-chevron-right"></span></span></button></a>
          </div>
       </div>
+
       <!-- Bootstrap core JavaScript -->
-      <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="vendor/jquery/jquery.min.js" type="7df7de26fe99ced08f3599e0-text/javascript"></script>
-      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js" type="7df7de26fe99ced08f3599e0-text/javascript"></script>
-      <!-- select2 Js -->
-      <script src="vendor/select2/js/select2.min.js" type="7df7de26fe99ced08f3599e0-text/javascript"></script>
-      <!-- Owl Carousel -->
-      <script src="vendor/owl-carousel/owl.carousel.js" type="7df7de26fe99ced08f3599e0-text/javascript"></script>
-      <!-- Custom -->
-      <script src="js/custom.js" type="7df7de26fe99ced08f3599e0-text/javascript"></script>
-   <script src="../../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7df7de26fe99ced08f3599e0-|49" defer></script>
-   
+   <script data-cfasync="false" src="../other/email-decode.min.js"></script>
+   <script src="../vendor/jquery/jquery.min.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
+   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
+   <!-- select2 Js -->
+   <script src="../vendor/select2/js/select2.min.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
+   <!-- Owl Carousel -->
+   <script src="../vendor/owl-carousel/owl.carousel.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
+   <!-- Custom -->
+   <script src="../js/custom.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
+   <script src="../other/rocket-loader.min.js" data-cf-settings="c3d65250493e38dddb45a56a-|49" defer></script>
+   <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"8fb213a22adee1ed","version":"2024.10.5","r":1,"serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"token":"dd471ab1978346bbb991feaa79e6ce5c","b":1}' crossorigin="anonymous"></script>
 </body>
 
 </html>
 
-<script src="vendor/jquery/jquery.min.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
-   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
-   <script src="other/rocket-loader.min.js" data-cf-settings="c3d65250493e38dddb45a56a-|49" defer></script>
+

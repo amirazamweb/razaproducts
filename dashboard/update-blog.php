@@ -4,6 +4,7 @@ if (!isset($_SESSION['user_id'])) {
     include '../includes/connect.php';
     header("Location: {$host}/login.php");
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +15,7 @@ if (!isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Askbootstrap">
     <meta name="author" content="Askbootstrap">
-    <title>Update Category</title>
+    <title>Update Blog</title>
     <!-- Favicon Icon -->
     <link rel="icon" type="image/png" href="../img/favicon.png">
     <!-- Bootstrap core CSS -->
@@ -43,79 +44,66 @@ if (!isset($_SESSION['user_id'])) {
 
                         <?php include 'admin-sidebar.php'; ?>
 
-                        <?php
-                        if (isset($_POST['update-category'])) {
-                            include '../includes/connect.php';
-                            $cat_id = $_GET['cat_id'];
-                            $cat_name = mysqli_real_escape_string($conn, $_POST['cat_name']);
-                            $sql2 = "SELECT * FROM categories WHERE cat_name = '{$cat_name}'";
-                            $sql3 = "SELECT * FROM categories WHERE cat_id = {$cat_id}";
-                            $result2 = mysqli_query($conn, $sql2);
-                            $result3 = mysqli_query($conn, $sql3);
-                            $flag = 0;
-                            if (mysqli_num_rows($result2) > 0) {
-                                $flag = 1;
-                            }
-
-                            if (mysqli_fetch_assoc($result3)['cat_name'] == $cat_name) {
-                                $flag = 2;
-                            }
-
-                            if ($flag == 1) {
-                                alertPopup('Category already added 😞!');
-                            } else {
-                                $sql4 = "UPDATE categories SET cat_name = '{$cat_name}' WHERE cat_id = {$cat_id}";
-                                if (mysqli_query($conn, $sql4)) {
-                                    echo "<script>
-                                          setTimeout(()=>{
-                                          window.location.href = '{$host}/dashboard/category.php';
-                                           }, 1000)
-                                          </script>";
-
-                                    alertPopup('Category updated successfully 😊!');
-                                }
-                            }
-
-                            mysqli_close($conn);
-                        }
-                        ?>
-
                         <div class="col-md-8">
                             <div class="card card-body account-right">
                                 <div class="widget">
                                     <div class="section-header">
                                         <h5 class="heading-design-h5 category-title">
-                                            Update Category
+                                            Update Blog
                                         </h5>
                                     </div>
                                     <?php
                                     include '../includes/connect.php';
-                                    $cat_id = $_GET['cat_id'];
-                                    $sql = "SELECT * FROM categories WHERE cat_id = {$cat_id}";
+                                    $blog_id = $_GET['blog_id'];
+                                    $sql = "SELECT * FROM blogs WHERE blog_id = {$blog_id}";
                                     $result = mysqli_query($conn, $sql);
                                     if (mysqli_num_rows($result) > 0) {
                                         while ($row = mysqli_fetch_assoc($result)) {
                                     ?>
-                                            <form method="POST">
+                                            <form method="POST" enctype="multipart/form-data" action="<?php $_SERVER['PHP_SELF']; ?>">
                                                 <div class="row">
-                                                    <div class="col-sm-12">
+                                                    <div class="col-12">
                                                         <div class="form-group">
-                                                            <input class="form-control border-form-control" value="<?php echo $row['cat_name']; ?>" placeholder="Fruits" type="text" name="cat_name" required>
+                                                            <label class="control-label">Title <span class="required">*</span></label>
+                                                            <input class="form-control border-form-control" value="<?php echo $row['blog_title']; ?>" type="text" name="blog_title" placeholder="enter title" required />
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Description <span class="required">*</span></label>
+                                                            <textarea class="form-control border-form-control" name="blog_desc" placeholder="enter description" required><?php echo $row['blog_desc']; ?></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Blog Image <span class="required">*</span></label>
+                                                            <br>
+                                                            <input type="file" name="blog_img">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-2">
+                                                    <div class="col-sm-6">
+                                                        <img src="upload/blog/<?php echo $row['blog_img']; ?>" alt="product image" style="height:70px;">
+                                                    </div>
+                                                </div>
+
+                                                <input type="hidden" value="<?php echo $row['blog_img']; ?>" name="prev_img">
 
                                                 <div class="row">
-                                                    <div class="col-sm-12 text-left">
-                                                        <input type="submit" value="Update" class="btn btn-success btn-lg" name="update-category">
+                                                    <div class="col-sm-12">
+                                                        <input type="submit" value="Update" class="btn btn-success" name="update-blog" required>
                                                     </div>
                                                 </div>
                                             </form>
                                     <?php
                                         }
-                                    }
-                                    else{
-                                        echo "<p class='text-danger'>No category found 😞!</p>";
+                                    } else {
+                                        echo "<p class='text-danger'>No blog details found 😞!</p>";
                                     }
                                     ?>
                                 </div>
@@ -289,6 +277,81 @@ if (!isset($_SESSION['user_id'])) {
             <a href="checkout.html"><button class="btn btn-secondary btn-lg btn-block text-left" type="button"><span class="float-left"><i class="mdi mdi-cart-outline"></i> Proceed to Checkout </span><span class="float-right"><strong>$1200.69</strong> <span class="mdi mdi-chevron-right"></span></span></button></a>
         </div>
     </div>
+
+    <!-- updae product functionality start -->
+    <?php
+    if (isset($_POST['update-blog'])) {
+        include '../includes/connect.php';
+        $blog_id = $_GET['blog_id'];
+        if (empty($_FILES['blog_img']['name'])) {
+            $file_name = $_POST['prev_img'];
+        }
+        else{
+            $errors = [];
+            $file_name = $_FILES['blog_img']['name'];
+            $file_type = $_FILES['blog_img']['type'];
+            $file_tmp = $_FILES['blog_img']['tmp_name'];
+            $file_size = $_FILES['blog_img']['size'];
+            $expl = explode('.', $file_name);
+            $ext_end = (end($expl));
+            $file_ext = strtolower($ext_end);
+            $extensions = ['jpeg', 'jpg', 'png'];
+            if (in_array($file_ext, $extensions) == false) {
+                $errors[] = "This extension file not allowed. Plesae choose a JPG or PNG file.";
+                alertPopup('Plesae choose a JPG or PNG image 😞!');
+                die();
+            }
+
+            if ($file_size > 2097152) {
+                $errors[] = "File size is more than 2 MB.";
+                alertPopup('Please select file size less than 2 MB 😞!');
+                die();
+            }
+            if (empty($errors)) {
+                move_uploaded_file($file_tmp, "upload/blog/" . $file_name);
+                unlink("upload/blog/" . $_POST['prev_img']);
+            }
+        }
+
+        $blog_title = mysqli_real_escape_string($conn, $_POST['blog_title']);
+        $blog_desc = mysqli_real_escape_string($conn, $_POST['blog_desc']);
+        
+        $sql2 = "SELECT * FROM blogs WHERE blog_title = '{$blog_title}'";
+        $sql3 = "SELECT * FROM blogs WHERE blog_id = {$blog_id}";
+        $result2 = mysqli_query($conn, $sql2);
+        $result3 = mysqli_query($conn, $sql3);
+        $flag = 0;
+        if (mysqli_num_rows($result2) > 0) {
+            $flag = 1;
+        }
+
+        if (mysqli_fetch_assoc($result3)['blog_title'] == $blog_title) {
+            $flag = 2;
+        }
+
+        if ($flag == 1) {
+            alertPopup('Blog already added 😞!');
+        } else {
+            $sql3 = "UPDATE blogs SET blog_title = '{$blog_title}', blog_desc = '{$blog_desc}', blog_img = '{$file_name}' WHERE blog_id = {$blog_id}";
+            if (mysqli_query($conn, $sql3)) {
+                echo "
+                <script>
+                  setTimeout(()=>{
+                  window.location.href = '{$host}/dashboard/blog-list.php';
+                  }, 1000)
+                </script>
+                ";
+
+                alertPopup('Blog updated successfully 😊!');
+            }
+        }
+
+        mysqli_close($conn);
+    }
+    ?>
+
+    <!-- update product funtionality end -->
+
     <!-- Bootstrap core JavaScript -->
     <script data-cfasync="false" src="../other/email-decode.min.js"></script>
     <script src="../vendor/jquery/jquery.min.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>

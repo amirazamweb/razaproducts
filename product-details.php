@@ -1,7 +1,11 @@
+
 <?php
 session_start();
+include "includes/connect.php";
+if(!isset($_GET['product_id'])){
+  header("Location: {$host}"); 
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
    
@@ -10,7 +14,7 @@ session_start();
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="Askbootstrap">
       <meta name="author" content="Askbootstrap">
-      <title>My Blogs</title>
+      <title>Product Details - Raza Products</title>
       <!-- Favicon Icon -->
       <link rel="icon" type="image/png" href="img/favicon.png">
       <!-- Bootstrap core CSS -->
@@ -25,95 +29,210 @@ session_start();
       <!-- Owl Carousel -->
       <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
       <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+      <style>
+         .stock-out{
+            background-color:rgb(255, 199, 211);
+            padding: 5px 7px;
+            color: red;
+            border: 1px solid red;
+            border-radius: 2px;
+         }
+
+         .stock-in{
+            background-color:rgb(199, 255, 202);
+            padding: 5px 7px;
+            color: green;
+            border: 1px solid green;
+            border-radius: 2px;
+         }
+      </style>
    </head>
    <body>
       
-   <!-- header start -->
-   <?php
-       include 'header.php';
-       ?>
-       <!-- header end -->   
+      <!-- header start -->
+      <?php
+      include 'header.php';
+      ?>
+      <!-- header end -->
 
-      <section class="blog-page section-padding">
+      <section class="pt-3 pb-3 page-info section-padding border-bottom bg-white">
          <div class="container">
             <div class="row">
-               <div class="col-md-8">
-                  <?php
-                  include 'includes/connect.php';
-                  $sql = "SELECT * FROM blogs LEFT JOIN users ON blogs.user_id = users.user_id ORDER BY blog_id DESC";
+               <div class="col-md-12">
+                  <a href="/"><strong><span class="mdi mdi-home"></span> Home</strong></a> <span class="mdi mdi-chevron-right"></span> Product Details <span class="mdi mdi-chevron-right"></span> 
+                  <?php 
+                  $product_id = $_GET['product_id'];
+                  $sql = "SELECT * FROM products LEFT JOIN categories ON products.category = categories.cat_id WHERE product_id = {$product_id}";
                   $result = mysqli_query($conn, $sql);
-                  if(mysqli_num_rows($result)>0){
-                     while($row = mysqli_fetch_assoc($result)){
+                  $row = mysqli_fetch_assoc($result);
+                  echo isset($row['cat_name'])?$row['cat_name']:'';
                   ?>
-                  <div class="card blog mb-4">
-                     <div class="blog-header">	
-                        <a href="#"><img class="card-img-top" src="img/blog/1.png" alt="Card image cap"></a>
-                     </div>
-                     <div class="card-body">
-                        <h5 class="card-title"><a href="#"><?php echo $row['blog_title'] ?></a></h5>
-                        <div class="entry-meta">
-                           <ul class="tag-info list-inline">
-                              <li class="list-inline-item"><a href="#"><i class="mdi mdi-calendar"></i>  <?php echo $row['blog_date'] ?></a></li>
-                              <li class="list-inline-item"><i class="mdi mdi-account"></i> <a rel="category tag" href="#"><?php echo $row['name'] ?></a></li>
-                           </ul>
-                        </div>
-                        <p class="card-text"><?php echo strlen($row['blog_desc'])>375?substr($row['blog_desc'], 0, 372)."....":$row['blog_desc'] ?>
-                        </p>
-                        <a href="#">READ MORE <span class="mdi mdi-chevron-right"></span></a>
-                     </div>
-                  </div>
-                  <?php
-                  }
-               }
-               else{
-                  echo "<p class='container mt-4 text-danger' style='min-height:50vh;'>No blog found</p>";
-               }
-                  ?>
-                  
-                  <ul class="pagination justify-content-center mt-4">
-                     <li class="page-item disabled">
-                        <span class="page-link">Previous</span>
-                     </li>
-                     <li class="page-item"><a href="#" class="page-link">1</a></li>
-                     <li class="page-item active">
-                        <span class="page-link">
-                        2
-                        <span class="sr-only">(current)</span>
-                        </span>
-                     </li>
-                     <li class="page-item"><a href="#" class="page-link">3</a></li>
-                     <li class="page-item">
-                        <a href="#" class="page-link">Next</a>
-                     </li>
-                  </ul>
                </div>
-               <div class="col-md-4">
-                  <div class="card sidebar-card mb-4">
-                     <div class="card-body">
-                        <div class="input-group">
-                           <input type="text" placeholder="Search For" class="form-control">
-                           <div class="input-group-append">
-                              <button type="button" class="btn btn-secondary">Search <i class="mdi mdi-arrow-right"></i></button>
-                           </div>
-                        </div>
+            </div>
+         </div>
+      </section>
+
+      <?php
+      $sql2 = "SELECT * FROM products WHERE product_id = {$product_id}";
+      $result2 = mysqli_query($conn, $sql2);
+      if(mysqli_num_rows($result2)>0){
+         while($row2 = mysqli_fetch_assoc($result2)){
+
+      ?>
+      <section class="shop-single section-padding pt-3">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-6">
+                  <img src="img/item/1.jpg" alt="" class="w-100">
+               </div>
+               <div class="col-md-6">
+                  <div class="shop-detail-right">
+                     <?php 
+                     if($row2['discount']>0){
+                     echo '<span class="badge badge-success">'.(floor(($row2['discount']*100)/$row2['price'])).'% OFF</span>';
+                     }
+                     ?>
+                     <h2><?php echo $row2['name'] ?></h2>
+                     <!-- <h6><strong><span class="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6> -->
+                      <?php 
+                      if($row2['discount']>0){
+                       echo '<p class="regular-price"><i class="mdi mdi-tag-outline"></i> MRP : ₹'.number_format($row2['price'], 2).'</p>';
+                      }
+                      ?>
+
+                     <?php 
+                      if($row2['discount']>0){
+                       echo '<p class="offer-price mb-0">Discounted price : <span class="text-success">₹'.number_format((($row2['price']-$row2['discount'])), 2).'</span></p>';
+                      }
+
+                      else{
+                        echo '<p class="offer-price mb-0 mt-4">Price : <span class="text-success">₹'.number_format($row2['price'], 2).'</span></p>';
+                      }
+                      ?>
+                     
+                     <a href="checkout.html"><button type="button" class="btn btn-secondary btn-lg"><i class="mdi mdi-cart-outline"></i> Add To Cart</button> </a>
+                     <div class="short-description">
+                        <h5>
+                           Quick Overview  
+                           <p class="float-right">Availability: 
+                           <?php
+                           if($row2['stock']>0){
+                            echo '<span class="stock-in">In Stock</span></p>';
+                           }
+                           else{
+                              echo '<span class="stock-out">Out Stock</span></p>';
+                           }
+                           ?>   
+                           
+                        </h5>
+                        <p class="mb-0 mt-4"> 
+                           <?php echo $row2['description'] ?>
+                        </p>
                      </div>
-                  </div>
-                  <div class="card sidebar-card mb-4">
-                     <div class="card-body">
-                        <h5 class="card-title mb-3">Recent Blogs</h5>
-                        <ul class="sidebar-card-list">
-                           <li><a href="#"><i class="mdi mdi-chevron-right"></i> Audio</a></li>
-                           <li><a href="#"><i class="mdi mdi-chevron-right"></i> Gallery</a></li>
-                           <li><a href="#"><i class="mdi mdi-chevron-right"></i> Image</a></li>
-                           <li><a href="#"><i class="mdi mdi-chevron-right"></i> Uncategorized</a></li>
-                           <li><a href="#"><i class="mdi mdi-chevron-right"></i> Video</a></li>
-                        </ul>
-                     </div>
+                     
                   </div>
                </div>
             </div>
          </div>
       </section>
+
+      <?php
+      }
+   }
+   else{
+      echo "<p class='container mt-4 text-danger' style='min-height:50vh;'>No product found</p>";
+   }
+      ?>
+
+      <!-- similar products -->
+
+      <section class="shop-list section-padding">
+      <div class="container">
+         <div class="row">
+            <div class="col-md-12">
+               <div class="shop-head">
+                  <?php
+                  if(mysqli_num_rows($result2)>0){
+                  echo '<h5 class="mb-3 fw-bolder">Similar Products</h5>';
+                  }
+                  else{
+                     echo "";
+                  }
+                  ?>
+                  
+               </div>
+               <div class="row no-gutters">
+                  <?php
+                  $sql3 = "SELECT * FROM products LEFT JOIN categories ON products.category = categories.cat_id WHERE product_id ={$product_id}";
+                  $result3 = mysqli_query($conn, $sql3);
+                   if(mysqli_num_rows($result3)>0){
+                     while($row3 = mysqli_fetch_assoc($result3)){
+                       $sql4 = "SELECT * FROM products WHERE product_id != {$product_id} AND category = {$row3['category']}";
+                       $result4 = mysqli_query($conn, $sql4);
+                       if(mysqli_num_rows($result4)>0){
+                        while($row4 = mysqli_fetch_assoc($result4)){
+                  ?>
+                        <div class="col-md-3 p-1">
+                           <div class="product">
+                              <a href="product-details.php?product_id=<?php echo $row4['product_id'] ?>">
+                                 <div class="product-header">
+                                 <?php
+                                    if ($row3['discount'] > 0) {
+                                       echo '<span class="badge badge-success">' . (floor(($row4['discount'] * 100) / $row4['price'])) . '% OFF</span>';
+                                    }
+                                    ?>
+                                    <img class="img-fluid" src="img/item/1.jpg" alt="">
+                                    <span class="veg text-success mdi mdi-circle"></span>
+                                 </div>
+                                 <div class="product-body">
+                                 <h5 class="mb-3"><?php echo strlen($row4['name'])>30?substr($row4['name'], 0, 30)."....":$row4['name'] ?></h5>
+                                    <!-- <h6><strong><span class="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6> -->
+                                 </div>
+                                 <div class="product-footer">
+                                    <button type="button" class="btn btn-secondary btn-sm float-right"><i class="mdi mdi-cart-outline"></i> Add To Cart</button>
+
+                                    <p class="offer-price mb-0">₹<?php echo ($row4['price']-$row4['discount']) ?><?php echo $row4['unit']=='weight'?'/KG':'' ?> <?php echo $row4['discount']>0? '<br><span class="regular-price">₹'.$row4['price'].'</span>':'<br>&nbsp;' ?> </p>
+                                 </div>
+                              </a>
+                           </div>
+                        </div>
+
+                        <?php
+                        }
+                     }
+                     else{
+                        echo "<p class='container mt-2 text-danger'>No Similar product found</p>";
+                     }  
+                   }
+                 }
+                 else{
+                  echo "";
+                 }
+                        ?>
+               </div>
+               <!-- <nav>
+                  <ul class="pagination justify-content-center mt-4">
+                     <li class="page-item disabled">
+                        <span class="page-link">Previous</span>
+                     </li>
+                     <li class="page-item"><a class="page-link" href="#">1</a></li>
+                     <li class="page-item active">
+                        <span class="page-link">
+                           2
+                           <span class="sr-only">(current)</span>
+                        </span>
+                     </li>
+                     <li class="page-item"><a class="page-link" href="#">3</a></li>
+                     <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                     </li>
+                  </ul>
+               </nav> -->
+            </div>
+         </div>
+      </div>
+   </section>
+      
       <section class="section-padding bg-white border-top">
          <div class="container">
             <div class="row">
@@ -149,7 +268,7 @@ session_start();
                   <h4 class="mb-5 mt-0"><a class="logo" href="index.html"><img src="img/logo-footer.png" alt="Groci"></a></h4>
                   <p class="mb-0"><a class="text-dark" href="#"><i class="mdi mdi-phone"></i> +61 525 240 310</a></p>
                   <p class="mb-0"><a class="text-dark" href="#"><i class="mdi mdi-cellphone-iphone"></i> 12345 67890, 56847-98562</a></p>
-                  <p class="mb-0"><a class="text-success" href="#"><i class="mdi mdi-email"></i> <span class="__cf_email__" data-cfemail="4e272f23213d2f262f200e29232f2722602d2123">[email&#160;protected]</span></a></p>
+                  <p class="mb-0"><a class="text-success" href="#"><i class="mdi mdi-email"></i> <span class="__cf_email__" data-cfemail="9cf5fdf1f3effdf4fdf2dcfbf1fdf5f0b2fff3f1">[email&#160;protected]</span></a></p>
                   <p class="mb-0"><a class="text-primary" href="#"><i class="mdi mdi-web"></i> www.askbootstrap.com</a></p>
                </div>
                <div class="col-lg-2 col-md-2">
@@ -208,9 +327,9 @@ session_start();
             <div class="row no-gutters">
                <div class="col-lg-6 col-sm-6">
                   <p class="mt-1 mb-0">&copy; Copyright 2020 <strong class="text-dark">Groci</strong>. All Rights Reserved<br>
-                     <small class="mt-0 mb-0">Made with <i class="mdi mdi-heart text-danger"></i> by <a href="https://askbootstrap.com/" target="_blank" class="text-primary">Ask Bootstrap</a>
-                     </small>
-                  </p>
+				  <small class="mt-0 mb-0">Made with <i class="mdi mdi-heart text-danger"></i> by <a href="https://askbootstrap.com/" target="_blank" class="text-primary">Ask Bootstrap</a>
+                  </small>
+				  </p>
                </div>
                <div class="col-lg-6 col-sm-6 text-right">
                   <img alt="osahan logo" src="img/payment_methods.png">
@@ -278,16 +397,17 @@ session_start();
          </div>
       </div>
       <!-- Bootstrap core JavaScript -->
-      <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="vendor/jquery/jquery.min.js" type="7df7de26fe99ced08f3599e0-text/javascript"></script>
-      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js" type="7df7de26fe99ced08f3599e0-text/javascript"></script>
+      <!-- <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> -->
+      
+      <script src="vendor/jquery/jquery.min.js" type="e366f450ac7acc10b0efb2d4-text/javascript"></script>
+      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js" type="e366f450ac7acc10b0efb2d4-text/javascript"></script>
       <!-- select2 Js -->
-      <script src="vendor/select2/js/select2.min.js" type="7df7de26fe99ced08f3599e0-text/javascript"></script>
+      <script src="vendor/select2/js/select2.min.js" type="e366f450ac7acc10b0efb2d4-text/javascript"></script>
       <!-- Owl Carousel -->
-      <script src="vendor/owl-carousel/owl.carousel.js" type="7df7de26fe99ced08f3599e0-text/javascript"></script>
+      <script src="vendor/owl-carousel/owl.carousel.js" type="e366f450ac7acc10b0efb2d4-text/javascript"></script>
       <!-- Custom -->
-      <script src="js/custom.js" type="7df7de26fe99ced08f3599e0-text/javascript"></script>
-   <script src="../../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7df7de26fe99ced08f3599e0-|49" defer></script>
-   
+      <script src="js/custom.js" type="e366f450ac7acc10b0efb2d4-text/javascript"></script>
+   <!-- <script src="../../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="e366f450ac7acc10b0efb2d4-|49" defer></script> -->
 </body>
 
 </html>
@@ -295,3 +415,4 @@ session_start();
 <script src="vendor/jquery/jquery.min.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js" type="c3d65250493e38dddb45a56a-text/javascript"></script>
    <script src="other/rocket-loader.min.js" data-cf-settings="c3d65250493e38dddb45a56a-|49" defer></script>
+

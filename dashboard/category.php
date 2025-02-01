@@ -70,7 +70,7 @@ if (!isset($_SESSION['user_id'])) {
                                          <table class="datatabel table table-striped table-bordered order-list-tabel" width="100%" cellspacing="0">
                                     <thead>
                                        <tr>
-                                          <th>Category #</th>
+                                          <th>#Category</th>
                                           <th>Category Name</th>
                                           <th>Action</th>
                                        </tr>
@@ -94,13 +94,12 @@ if (!isset($_SESSION['user_id'])) {
                                         ";
                                         $sql2 = "SELECT * FROM categories";
                                         $result2 = mysqli_query($conn, $sql2);
-                                        if(mysqli_num_rows($result2)>7){
+                                        if(mysqli_num_rows($result2)>$limit){
                                           echo "<div class='text-center'>";
                                           if($page>1){
                                              echo "<a href='category.php?page=".($page-1)."' class='btn btn-info btn-sm mx-1'>Prev<a>";
                                           }
                                           $total_records = mysqli_num_rows($result2);
-                                          $limit = 7;
                                           $total_pages = ceil($total_records/$limit);
                                           for($i=1; $i <= $total_pages; $i++){
                                            if($i==$page){
