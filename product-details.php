@@ -83,7 +83,7 @@ if(!isset($_GET['product_id'])){
          <div class="container">
             <div class="row">
                <div class="col-md-6">
-                  <img src="img/item/1.jpg" alt="" class="w-100">
+                  <img src="dashboard/upload/<?php echo $row2['img_url'] ?>" alt="product image" class="w-100">
                </div>
                <div class="col-md-6">
                   <div class="shop-detail-right">

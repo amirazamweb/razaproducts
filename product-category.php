@@ -98,7 +98,7 @@ if(!isset($_GET['cat_id'])){
                                        echo '<span class="badge badge-success">' . (floor(($row3['discount'] * 100) / $row3['price'])) . '% OFF</span>';
                                     }
                                     ?>
-                                    <img class="img-fluid" src="img/item/1.jpg" alt="">
+                                    <img class="img-fluid" src="dashboard/upload/<?php echo $row3['img_url'] ?>" alt="product image">
                                     <span class="veg text-success mdi mdi-circle"></span>
                                  </div>
                                  <div class="product-body">

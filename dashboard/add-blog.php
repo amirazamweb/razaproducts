@@ -269,16 +269,29 @@ if (!isset($_SESSION['user_id'])) {
          $ext_end = (end($expl));
          $file_ext = strtolower($ext_end);
          $extensions = ['jpeg', 'jpg', 'png'];
+         $img_width = getimagesize($file_tmp)[0];
+         $img_height = getimagesize($file_tmp)[1];
 
          if (in_array($file_ext, $extensions) == false) {
-            $errors[] = "This extension file not allowed. Plesae choose a JPG or PNG file.";
+            $errors[] = "This extension file not allowed. Plesae choose a JPG or PNG image.";
             alertPopup('Plesae choose a JPG or PNG image 😞!');
             die();
          }
 
-         if ($file_size > 2097152) {
-            $errors[] = "File size is more than 2 MB.";
-            alertPopup('Please select file size less than 2 MB 😞!');
+         if ($file_size > 1048576) {
+            $errors[] = "Image size is more than 1 MB.";
+            alertPopup('Please select image size less than 1 MB 😞!');
+            die();
+         }
+         if($img_width!=800){
+            $errors[] = "Image dimension must be 800 X 533";
+            alertPopup('Image dimension must be 800X533 😞!');
+            die();
+         }
+
+         if($img_height!=533){
+            $errors[] = "Image dimension must be 800 X 533";
+            alertPopup('Image dimension must be 800X533 😞!');
             die();
          }
 

@@ -104,13 +104,16 @@ if ($current_page == "contact") {
                <div class="dropdown-menu">
                   <?php
                   include "includes/connect.php";
-                  $sql = "SELECT * FROM categories";
+                  $sql = "SELECT * FROM categories LEFT JOIN products ON categories.cat_id = products.category";
                   $result = mysqli_query($conn, $sql);
                   if (mysqli_num_rows($result) > 0) {
                      while ($row = mysqli_fetch_assoc($result)) {
+                        if(!empty($row['category'])){
                   ?>
+                  
                         <a class="dropdown-item" href="/product-category.php?cat_id=<?php echo $row['cat_id'] ?>"><i class="mdi mdi-chevron-right" aria-hidden="true"></i><?php echo $row['cat_name'] ?></a>
                   <?php
+                  }
                      }
                   }
                   ?>

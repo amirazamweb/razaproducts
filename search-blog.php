@@ -1,5 +1,9 @@
 <?php
 session_start();
+include "includes/connect.php";
+if(!isset($_GET['search'])){
+  header("Location: {$host}/blogs.php"); 
+}
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +14,7 @@ session_start();
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="Askbootstrap">
       <meta name="author" content="Askbootstrap">
-      <title>My Blogs</title>
+      <title>Search Blogs</title>
       <!-- Favicon Icon -->
       <link rel="icon" type="image/png" href="img/favicon.png">
       <!-- Bootstrap core CSS -->
@@ -37,16 +41,8 @@ session_start();
             <div class="row">
                <div class="col-md-8">
                   <?php
-                  include 'includes/connect.php';
-                  $limit = 2;
-                  if(isset($_GET['page'])){
-                     $page = $_GET['page'];
-                  }
-                  else{
-                     $page = 1;
-                  }
-                  $offest = ($page-1)*$limit;
-                  $sql = "SELECT * FROM blogs LEFT JOIN users ON blogs.user_id = users.user_id ORDER BY blog_id DESC LIMIT {$offest}, {$limit}";
+                  $search_val = $_GET['search'];
+                  $sql = "SELECT * FROM blogs LEFT JOIN users ON blogs.user_id = users.user_id WHERE blog_title LIKE '%{$search_val}%' ORDER BY blog_id DESC";
                   $result = mysqli_query($conn, $sql);
                   if(mysqli_num_rows($result)>0){
                      while($row = mysqli_fetch_assoc($result)){
@@ -74,46 +70,6 @@ session_start();
                else{
                   echo "<p class='container mt-4 text-danger' style='min-height:50vh;'>No blog found</p>";
                }
-                  ?>
-                  <?php
-                  $sql2 = "SELECT * FROM blogs";
-                  $result2 = mysqli_query($conn, $sql2);
-                  if(mysqli_num_rows($result2)>$limit){
-                     echo '<ul class="pagination justify-content-center mt-4">';
-                     if($page>1){
-                        echo '<li class="page-item">
-                        <a href="blogs.php?page='.($page-1).'" class="page-link">Previous</a>
-                     </li>';
-                     }
-                     else{
-                        echo '<li class="page-item disabled">
-                        <a href="blogs.php?page='.($page-1).'" class="page-link">Previous</a>
-                     </li>';
-                     }
-                     $total_records = mysqli_num_rows($result2);
-                     $total_pages = ceil($total_records/$limit);
-                     for($i= 1; $i<=$total_pages; $i++){
-                        if($i==$page){
-                           echo '<li class="page-item active"><a href="blogs.php?page='.$i.'" class="page-link">'.$i.'</a></li>';
-                        }
-                        else{
-                           echo '<li class="page-item"><a href="blogs.php?page='.$i.'" class="page-link">'.$i.'</a></li>';
-                        }
-                     }
-                     if($page<$total_pages){
-                        echo '<li class="page-item">
-                        <a href="blogs.php?page='.($page+1).'" class="page-link">Next</a>
-                     </li>
-                  </ul>';
-                     }
-                     else{
-                        echo '<li class="page-item disabled">
-                        <a href="blogs.php?page='.($page+1).'" class="page-link">Next</a>
-                     </li>
-                  </ul>';
-                     }
-                     
-                  }
                   ?> 
                </div>
                <div class="col-md-4">
