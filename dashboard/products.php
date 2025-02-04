@@ -54,6 +54,7 @@ if (!isset($_SESSION['user_id'])) {
                                  <a href="add-product.php"><button class="btn btn-success">Add Product</button></a>
                               </h5>
                            </div>
+                           <div class="order-list-tabel-main table-responsive">
                            <?php
                            include '../includes/connect.php';
                            $limit = 4;
@@ -99,7 +100,7 @@ if (!isset($_SESSION['user_id'])) {
                                     <td style="vertical-align: middle;">
                                        <a data-toggle="tooltip" data-placement="top" title="Edit" href="update-product.php?product_id=<?php echo $row['product_id']; ?>" data-original-title="View Detail" class="btn btn-info btn-sm"><i class="mdi mdi-border-color"></i></a>
                                        <br>
-                                       <a data-toggle="tooltip" data-placement="top" title="Delete" href="delete-product.php?product_id=<?php echo $row['product_id']; ?>" data-original-title="View Detail" class="btn btn-danger btn-sm mt-1"><i class="mdi mdi-delete"></i></a>
+                                       <a data-toggle="tooltip" data-placement="top" title="Delete" href="delete-product.php?product_id=<?php echo $row['product_id']; ?>" data-original-title="View Detail" class="btn btn-danger btn-sm"><i class="mdi mdi-delete"></i></a>
                                     </td>
                                  </tr>
 
@@ -135,6 +136,7 @@ if (!isset($_SESSION['user_id'])) {
 
                            mysqli_close($conn);
                            ?>
+                           </div>
                         </div>
                      </div>
                   </div>

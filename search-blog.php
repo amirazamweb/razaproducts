@@ -38,6 +38,7 @@ if(!isset($_GET['search'])){
 
       <section class="blog-page section-padding">
          <div class="container">
+         <h4>Search Term : <?php echo $_GET['search'];?></h4>
             <div class="row">
                <div class="col-md-8">
                   <?php

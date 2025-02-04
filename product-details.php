@@ -146,22 +146,6 @@ if(!isset($_GET['product_id'])){
 
       <!-- similar products -->
 
-      <section class="shop-list section-padding">
-      <div class="container">
-         <div class="row">
-            <div class="col-md-12">
-               <div class="shop-head">
-                  <?php
-                  if(mysqli_num_rows($result2)>0){
-                  echo '<h5 class="mb-3 fw-bolder">Similar Products</h5>';
-                  }
-                  else{
-                     echo "";
-                  }
-                  ?>
-                  
-               </div>
-               <div class="row no-gutters">
                   <?php
                   $sql3 = "SELECT * FROM products LEFT JOIN categories ON products.category = categories.cat_id WHERE product_id ={$product_id}";
                   $result3 = mysqli_query($conn, $sql3);
@@ -170,6 +154,15 @@ if(!isset($_GET['product_id'])){
                        $sql4 = "SELECT * FROM products WHERE product_id != {$product_id} AND category = {$row3['category']}";
                        $result4 = mysqli_query($conn, $sql4);
                        if(mysqli_num_rows($result4)>0){
+                        echo '      <section class="shop-list section-padding">
+      <div class="container">
+         <div class="row">
+            <div class="col-md-12">
+               <div class="shop-head">
+                  <h5 class="mb-3 fw-bolder">Similar Products</h5>
+               </div>
+               <div class="row no-gutters">';
+                       
                         while($row4 = mysqli_fetch_assoc($result4)){
                   ?>
                         <div class="col-md-3 p-1">
@@ -199,39 +192,17 @@ if(!isset($_GET['product_id'])){
 
                         <?php
                         }
-                     }
-                     else{
-                        echo "<p class='container mt-2 text-danger'>No Similar product found</p>";
-                     }  
-                   }
-                 }
-                 else{
-                  echo "";
-                 }
-                        ?>
-               </div>
-               <!-- <nav>
-                  <ul class="pagination justify-content-center mt-4">
-                     <li class="page-item disabled">
-                        <span class="page-link">Previous</span>
-                     </li>
-                     <li class="page-item"><a class="page-link" href="#">1</a></li>
-                     <li class="page-item active">
-                        <span class="page-link">
-                           2
-                           <span class="sr-only">(current)</span>
-                        </span>
-                     </li>
-                     <li class="page-item"><a class="page-link" href="#">3</a></li>
-                     <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                     </li>
-                  </ul>
-               </nav> -->
+                        echo '</div>
             </div>
          </div>
       </div>
-   </section>
+   </section>';
+                     }
+                       
+                   }
+                 }
+                        ?>
+               
       
       <section class="section-padding bg-white border-top">
          <div class="container">

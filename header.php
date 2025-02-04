@@ -30,21 +30,34 @@ if ($current_page == "contact") {
 
 <nav class="navbar navbar-light navbar-expand-lg bg-dark bg-faded osahan-menu">
    <div class="container-fluid">
-      <a class="navbar-brand" href="index.html"> <img src="http://localhost/imran/img/logo.png" alt="logo"> </a>
+      <a class="navbar-brand" href="/"> <img src="http://localhost/imran/img/logo.png" alt="logo" style="height: 38px; width:auto;"> </a>
       <button class="navbar-toggler navbar-toggler-white" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
          <span class="navbar-toggler-icon"></span>
       </button>
       <div class="navbar-collapse" id="navbarNavDropdown">
          <div class="navbar-nav mr-auto mt-2 mt-lg-0 margin-auto top-categories-search-main">
             <div class="top-categories-search">
+               <form action="" method="post">
                <div class="input-group">
-                  <input class="form-control" placeholder="Search products in Your City" aria-label="Search products in Your City" type="text">
+                  <input class="form-control" placeholder="Search products in Your City" aria-label="Search products in Your City" type="text" name="product_search_term" required>
                   <span class="input-group-btn">
-                     <button class="btn btn-secondary" type="button"><i class="mdi mdi-file-find"></i> Search</button>
+                     <button class="btn btn-secondary" type="submit" name="search-product-btn"><i class="mdi mdi-file-find"></i> Search</button>
                   </span>
                </div>
+               </form>
             </div>
          </div>
+
+         <?php
+         
+         if(isset($_POST['search-product-btn'])){
+            $product_search_term = $_POST['product_search_term'];
+            echo "<script>
+            window.location.href = 'http://localhost/imran/product-search.php?search=".$product_search_term."'
+            </script>";
+         }
+         ?>
+
          <div class="my-2 my-lg-0">
             <ul class="list-inline main-nav-right">
                <?php
@@ -66,7 +79,7 @@ if ($current_page == "contact") {
                         <img alt="logo" src="http://localhost/imran/img/user/profile-icon.jpg"><strong>Hi</strong> ' . $name . '
                         </a>
                         <div class="dropdown-menu dropdown-menu-right dropdown-list-design">
-                           <a href="my-profile.html" class="dropdown-item"><i aria-hidden="true" class="mdi mdi-account-outline"></i>  My Profile</a>
+                           <a href="/dashboard/my-profile.php" class="dropdown-item"><i aria-hidden="true" class="mdi mdi-account-outline"></i>  My Profile</a>
                            <a href="my-address.html" class="dropdown-item"><i aria-hidden="true" class="mdi mdi-map-marker-circle"></i>  My Address</a>
                            <a href="wishlist.html" class="dropdown-item"><i aria-hidden="true" class="mdi mdi-heart-outline"></i>  Wish List </a>
                            <a href="orderlist.html" class="dropdown-item"><i aria-hidden="true" class="mdi mdi-format-list-bulleted"></i>  Order List</a>

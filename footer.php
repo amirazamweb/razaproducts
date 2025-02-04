@@ -2,40 +2,53 @@
          <div class="container">
             <div class="row">
                <div class="col-lg-3 col-md-3">
-                  <h4 class="mb-5 mt-0"><a class="logo" href="index.html"><img src="img/logo-footer.png" alt="Groci"></a></h4>
-                  <p class="mb-0"><a class="text-dark" href="#"><i class="mdi mdi-phone"></i> +61 525 240 310</a></p>
-                  <p class="mb-0"><a class="text-dark" href="#"><i class="mdi mdi-cellphone-iphone"></i> 12345 67890, 56847-98562</a></p>
-                  <p class="mb-0"><a class="text-success" href="#"><i class="mdi mdi-email"></i> <span class="__cf_email__" data-cfemail="0168606c6e726069606f41666c60686d2f626e6c">[email&#160;protected]</span></a></p>
-                  <p class="mb-0"><a class="text-primary" href="#"><i class="mdi mdi-web"></i> www.askbootstrap.com</a></p>
+                  <h4 class="mb-2 mt-0"><a class="logo" href="/"><img src="http://localhost/imran/img/logo.png" alt="Groci" style="height:38px; width:auto;"></a></h4>
+                  <p class="mb-2">Raza Products offers premium tea, rich dry fruits, and delicious khajoor, ensuring quality and authentic flavors.</p>
+                  <p class="mb-0"><a class="text-dark" href="tel: +91 9113734693"><i class="mdi mdi-phone"></i>+91 91137 34693 </a></p>
+                  <p class="mb-0"><a class="text-success" href="mailto: therazaproducts@gmail.com"><i class="mdi mdi-email"></i>therazaproducts@gmail.com</a></p>
                </div>
                <div class="col-lg-2 col-md-2">
-                  <h6 class="mb-4">TOP CITIES </h6>
+                  <h6 class="mb-4">QUICK LINKS </h6>
                   <ul>
-                  <li><a href="#">New Delhi</a></li>
-                  <li><a href="#">Bengaluru</a></li>
-                  <li><a href="#">Hyderabad</a></li>
-                  <li><a href="#">Kolkata</a></li>
-                  <li><a href="#">Gurugram</a></li>
+                  <li><a href="/about.php">About US</a></li>
+                  <li><a href="/contact.php">Contact</a></li>
+                  <li><a href="/faq.php">FAQ</a></li>
+                  <li><a href="/terms-conditions.php">Terms & Conditions</a></li>
+                  <li><a href="/privacy-policy">Privacy Policy</a></li>
                   <ul>
                </div>
                <div class="col-lg-2 col-md-2">
                   <h6 class="mb-4">CATEGORIES</h6>
                   <ul>
-                  <li><a href="#">Vegetables</a></li>
-                  <li><a href="#">Grocery & Staples</a></li>
-                  <li><a href="#">Breakfast & Dairy</a></li>
-                  <li><a href="#">Soft Drinks</a></li>
-                  <li><a href="#">Biscuits & Cookies</a></li>
+                  <?php
+                  include "includes/connect.php";
+                  $sql = "SELECT * FROM categories LEFT JOIN products ON categories.cat_id = products.category LIMIT 5";
+                  $result = mysqli_query($conn, $sql);
+                  if (mysqli_num_rows($result) > 0) {
+                     while ($row = mysqli_fetch_assoc($result)) {
+                        if(!empty($row['category'])){
+                  ?>
+                        <li><a href="/product-category.php?cat_id=<?php echo $row['cat_id'] ?>"><?php echo $row['cat_name'] ?></a></li>
+                  <?php
+                  }
+                     }
+                  }
+                  ?>
                   <ul>
                </div>
                <div class="col-lg-2 col-md-2">
-                  <h6 class="mb-4">ABOUT US</h6>
+                  <h6 class="mb-4">Blogs</h6>
                   <ul>
-                  <li><a href="#">Company Information</a></li>
-                  <li><a href="#">Careers</a></li>
-                  <li><a href="#">Store Location</a></li>
-                  <li><a href="#">Affillate Program</a></li>
-                  <li><a href="#">Copyright</a></li>
+                  <?php
+                  include "includes/connect.php";
+                  $sql2 = "SELECT * FROM blogs LIMIT 5";
+                  $result2 = mysqli_query($conn, $sql2);
+                  if (mysqli_num_rows($result2) > 0) {
+                     while ($row2 = mysqli_fetch_assoc($result2)) {
+                     echo '<li><a href="#">'.$row2['blog_title'].'</a></li>';   
+                     }
+                  } 
+                  ?>
                   <ul>
                </div>
                <div class="col-lg-3 col-md-3">
