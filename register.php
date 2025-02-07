@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 if (isset($_SESSION['user_id'])) {
     include '../includes/connect.php';
          header("Location: {$host}dashboard/my-profile.php");

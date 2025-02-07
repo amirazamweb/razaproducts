@@ -1,9 +1,24 @@
 <?php
 session_start();
+
+include 'includes/connect.php';
 if (isset($_SESSION['user_id'])) {
-    include '../includes/connect.php';
-    header("Location: {$host}dashboard/my-profile.php");
+    
+    if(isset($_SESSION['prev_page'])){
+        $url = "http://localhost".$_SESSION['prev_page'];
+
+        echo "<script>
+        window.location.href = '{$url}';
+        </script>";
+    }
+    else{
+        header("Location: {$host}");
+    }
+
+        
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -57,11 +72,23 @@ if (isset($_SESSION['user_id'])) {
                 $_SESSION['user_name'] = $row['name'];
                 $_SESSION['role'] = $row['role'];
                 alertPopup('User registered successfully 😊!');
-                echo "<script>
-         setTimeout(()=>{
-         window.location.href = '{$host}/dashboard/my-profile.php';
-         }, 1000)
-         </script>";
+                if(isset($_SESSION['prev_page'])){
+                    $url = "http://localhost".$_SESSION['prev_page'];
+            
+                    echo "<script>
+                    setTimeout(()=>{
+                    window.location.href = '{$url}';
+                    }, 1000)
+                    </script>";
+                }
+                else{
+                    echo "<script>
+                    setTimeout(()=>{
+                    window.location.href = '{$host}';
+                    }, 1000)
+                    </script>";
+                }
+                    
             } else {
                 alertPopup('Invalide crtedentials 😞!');
             }

@@ -30,7 +30,7 @@ if ($current_page == "contact") {
 
 <nav class="navbar navbar-light navbar-expand-lg bg-dark bg-faded osahan-menu">
    <div class="container-fluid">
-      <a class="navbar-brand" href="/"> <img src="http://localhost/imran/img/logo.png" alt="logo" style="height: 38px; width:auto;"> </a>
+      <a class="navbar-brand" href="/"> <img src="http://localhost/imran/img/logo.jpg" alt="logo" style="height: 38px; width:auto;"> </a>
       <button class="navbar-toggler navbar-toggler-white" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
          <span class="navbar-toggler-icon"></span>
       </button>
@@ -84,13 +84,21 @@ if ($current_page == "contact") {
                            <a href="wishlist.html" class="dropdown-item"><i aria-hidden="true" class="mdi mdi-heart-outline"></i>  Wish List </a>
                            <a href="orderlist.html" class="dropdown-item"><i aria-hidden="true" class="mdi mdi-format-list-bulleted"></i>  Order List</a>
                            <div class="dropdown-divider"></div>
-                           <a class="dropdown-item" href="#"><i class="mdi mdi-lock"></i> Logout</a>	
+                           <a class="dropdown-item" href="/dashboard/logout.php"><i class="mdi mdi-lock"></i> Logout</a>	
                         </div>
                      </li>';
                }
                ?>
                <li class="list-inline-item cart-btn">
-                  <a href="#" data-toggle="offcanvas" class="btn btn-link border-none"><i class="mdi mdi-cart"></i> My Cart <small class="cart-value">5</small></a>
+                   <?php
+                   if(isset($_SESSION['user_id'])){
+                     echo '<a href="/cart.php" data-toggle="offcanvas" class="btn btn-link border-none"><i class="mdi mdi-cart"></i> My Cart <small class="cart-value">5</small></a>';
+                   }
+                   else{
+                      echo '<a href="/login.php" data-toggle="offcanvas" class="btn btn-link border-none"><i class="mdi mdi-cart"></i> My Cart</a>'; 
+                   }
+                   ?>
+                  
                </li>
             </ul>
          </div>
@@ -133,7 +141,7 @@ if ($current_page == "contact") {
                </div>
             </li>
             <li class="nav-item <?php echo $temp=='cart'?'active2':'' ?>">
-               <a href="/cart.php" class="nav-link">Cart</a>
+                <a href="/cart.php" class="nav-link">Cart</a>
             </li>
             <li class="nav-item <?php echo $temp=='blogs'?'active2':'' ?>">
                <a href="/blogs.php" class="nav-link">Blogs</a>

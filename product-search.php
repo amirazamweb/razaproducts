@@ -1,8 +1,8 @@
 <?php
 session_start();
 include "includes/connect.php";
-if(!isset($_GET['search'])){
-  header("Location: {$host}"); 
+if (!isset($_GET['search'])) {
+   header("Location: {$host}");
 }
 ?>
 
@@ -54,7 +54,7 @@ if(!isset($_GET['search'])){
             <div class="col-md-12">
                <div class="shop-head">
                   <h5 class="mb-3 fw-bolder">
-                    Search Term : <?php echo $_GET['search']; ?>
+                     Search Term : <?php echo $_GET['search']; ?>
                   </h5>
                </div>
                <div class="row no-gutters">
@@ -65,7 +65,7 @@ if(!isset($_GET['search'])){
                   if (mysqli_num_rows($result3) > 0) {
                      while ($row3 = mysqli_fetch_assoc($result3)) {
                   ?>
-                  
+
                         <div class="col-md-3 p-1">
                            <div class="product">
                               <a href="product-details.php?product_id=<?php echo $row3['product_id'] ?>">
@@ -79,13 +79,16 @@ if(!isset($_GET['search'])){
                                     <span class="veg text-success mdi mdi-circle"></span>
                                  </div>
                                  <div class="product-body">
-                                    <h5 class="mb-3"><?php echo strlen($row3['name'])>30?substr($row3['name'], 0, 30)."....":$row3['name'] ?></h5>
+                                    <h5 class="mb-3"><?php echo strlen($row3['name']) > 30 ? substr($row3['name'], 0, 30) . "...." : $row3['name'] ?></h5>
                                     <!-- <h6><strong><span class="mdi mdi-approval"></span> Available in</strong> - 500 gm</h6> -->
                                  </div>
                                  <div class="product-footer">
-                                    <button type="button" class="btn btn-secondary btn-sm float-right"><i class="mdi mdi-cart-outline"></i> Add To Cart</button>
+                                    <form action="" method="post">
+                                       <input type="hidden" name="product_id" value="<?php echo $row3['product_id'] ?>">
+                                       <button type="submit" class="btn btn-secondary btn-sm float-right" name="addToCart"><i class="mdi mdi-cart-outline"></i> Add To Cart</button>
+                                    </form>
 
-                                    <p class="offer-price mb-0">₹<?php echo ($row3['price']-$row3['discount']) ?><?php echo $row3['unit']=='weight'?'/KG':'' ?> <?php echo $row3['discount']>0? '<br><span class="regular-price">₹'.$row3['price'].'</span>':'<br>&nbsp;' ?> </p>
+                                    <p class="offer-price mb-0">₹<?php echo ($row3['price'] - $row3['discount']) ?><?php echo $row3['unit'] == 'weight' ? '/KG' : '' ?> <?php echo $row3['discount'] > 0 ? '<br><span class="regular-price">₹' . $row3['price'] . '</span>' : '<br>&nbsp;' ?> </p>
                                  </div>
                               </a>
                            </div>
@@ -93,35 +96,45 @@ if(!isset($_GET['search'])){
 
                   <?php
                      }
-                  }
-                  else{
+                  } else {
                      echo "<p class='container mt-4 text-danger' style='min-height:50vh;'>No product found</p>";
                   }
                   ?>
 
                </div>
-               <!-- <nav>
-                  <ul class="pagination justify-content-center mt-4">
-                     <li class="page-item disabled">
-                        <span class="page-link">Previous</span>
-                     </li>
-                     <li class="page-item"><a class="page-link" href="#">1</a></li>
-                     <li class="page-item active">
-                        <span class="page-link">
-                           2
-                           <span class="sr-only">(current)</span>
-                        </span>
-                     </li>
-                     <li class="page-item"><a class="page-link" href="#">3</a></li>
-                     <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                     </li>
-                  </ul>
-               </nav> -->
             </div>
          </div>
       </div>
    </section>
+
+   <!-- add to cart action start -->
+   <?php
+   if (isset($_POST['addToCart'])) {
+      if (isset($_SESSION['user_id'])) {
+         $product_id = $_POST['product_id'];
+         $user_id = $_SESSION['user_id'];
+         $sql4 = "SELECT * FROM cart WHERE product_id = {$product_id} AND user_id={$user_id}";
+         $result4 = mysqli_query($conn, $sql4);
+         if (mysqli_num_rows($result4) > 0) {
+            $sql5 = "UPDATE cart SET qty = qty+1 WHERE user_id={$user_id} AND product_id = {$product_id}";
+            if (mysqli_query($conn, $sql5)) {
+               alertPopup('Product added to cart 😊!');
+            }
+         } else {
+            $sql6 = "INSERT INTO cart(user_id, product_id, qty) VALUES({$user_id}, {$product_id}, 1)";
+            if (mysqli_query($conn, $sql6)) {
+               alertPopup('Product added to cart 😊!');
+            }
+         }
+      } else {
+         echo "<script>
+            window.location.href = '{$host}/login.php';
+            </script>";
+      }
+   }
+   ?>
+   <!-- add to cart action end -->
+
    <section class="section-padding bg-white border-top">
       <div class="container">
          <div class="row">

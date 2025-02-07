@@ -5,6 +5,10 @@
   $filename = explode(".", $full_path);
   $current_page = $filename[0];
 
+
+  $_SESSION['prev_page'] = $_SERVER['PHP_SELF'];
+ 
+
   if($current_page=="my-profile"){
     $temp ="profile";
   }
@@ -93,4 +97,3 @@
         </div>
     </div>
 </div>
-

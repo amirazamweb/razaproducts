@@ -2,7 +2,7 @@
          <div class="container">
             <div class="row">
                <div class="col-lg-3 col-md-3">
-                  <h4 class="mb-2 mt-0"><a class="logo" href="/"><img src="http://localhost/imran/img/logo.png" alt="Groci" style="height:38px; width:auto;"></a></h4>
+                  <h4 class="mb-2 mt-0"><a class="logo" href="/"><img src="http://localhost/imran/img/logo-footer.jpg" alt="Groci" style="height:38px; width:auto;"></a></h4>
                   <p class="mb-2">Raza Products offers premium tea, rich dry fruits, and delicious khajoor, ensuring quality and authentic flavors.</p>
                   <p class="mb-0"><a class="text-dark" href="tel: +91 9113734693"><i class="mdi mdi-phone"></i>+91 91137 34693 </a></p>
                   <p class="mb-0"><a class="text-success" href="mailto: therazaproducts@gmail.com"><i class="mdi mdi-email"></i>therazaproducts@gmail.com</a></p>
